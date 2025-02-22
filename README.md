@@ -1,3 +1,5 @@
+
+
 # Technologies used
 1. React vite
 2. Tailwindcss

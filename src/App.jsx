@@ -9,15 +9,18 @@ function App() {
 
   return (
     <>
-    <Routes>
-      <Route path='/' element={<SigninWrapper/>}>
-      <Route index element={<Login/>}/>
-      <Route path='signup' element={<Signup />} />
-      <Route path='login' element={<Login />} />
-      </Route>
-      <Route path='/home' element={<HomePage/>}/>
-    
-    </Routes>
+      <Routes>
+        <Route path='/' element={
+          <div className='flex justify-center items-center min-h-screen m-auto'>
+          <SigninWrapper />
+          </div>}>
+          <Route index element={<Login />} />
+          <Route path='signup' element={<Signup />} />
+          <Route path='login' element={<Login />} />
+        </Route>
+        <Route path='/home' element={<HomePage />} />
+
+      </Routes>
     </>
   )
 }

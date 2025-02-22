@@ -9,7 +9,7 @@ export default function SigninWrapper() {
         setHasAccount(!hasAccount);
     }
     return (
-        <div className='flex flex-col w-4/5 m-auto md:flex-row bg-contain md:bg-cover bg-no-repeat bg-black bg-opacity-65 md:max-h-min md:p-10 p-6 md:justify-start gap-x-10 md:w-full text-sm 2xl:text-2xl rounded-3xl'>
+        <div className='flex flex-col w-4/5 xl:w-3/5 m-auto md:flex-row bg-contain md:bg-cover bg-no-repeat bg-black bg-opacity-65 md:max-h-min md:p-10 p-6 md:justify-start gap-x-10 text-sm 2xl:text-2xl rounded-3xl'>
             <div className='flex flex-col gap-y-4 md:w-full'>
                 <h2 className='font-bold text-2xl'>Sign In</h2>
                 <div>
