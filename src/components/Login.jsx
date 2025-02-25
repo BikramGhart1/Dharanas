@@ -1,13 +1,27 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { loginSchema } from '../formvalidations/validateform'
+import axios from 'axios'
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(loginSchema) })
+  const navigate=useNavigate();
 
-  const onSubmit = (data) => {
-    console.log("Form Data: ", data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post('http://localhost:3000/signup/login', data, {
+        headers: { "Content-Type": "application/json" }
+      });
+      localStorage.setItem('token',response.data.token);
+      console.log("Server response: ", response.data);
+      setTimeout(()=>{
+           navigate('/home');
+      },1000)
+    } catch (err) {
+      console.error("Error: ", err.response?.data || err.message);
+    }
   }
   return (
 
@@ -23,7 +37,7 @@ export default function Login() {
         {errors.password && <p className='bg-red-500 mt-1 rounded-md w-max p-1'>{errors.password.message}</p>}
       </div>
       <div className='mt-3'>
-        <input type="submit" value="Sign Up" className='bg-primary text-text p-2 rounded-lg' />
+        <input type="submit" value="Sign Up" className='bg-primary text-text p-2 rounded-lg cursor-pointer' />
       </div>
     </form>
 

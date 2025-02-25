@@ -1,6 +1,5 @@
 body {
     /* background-color: var(--color-background); */
-    background-image: url('/images/myownbg2.png');
     /* background-image: url('/images/bgsignup.png'); */
     background-size: cover;
     background-repeat: no-repeat;
@@ -11,9 +10,15 @@ body {
     justify-content: center;
     align-items: center; */
 }
+
 input {
     padding: 6px;
     color: black;
     border-radius: 8px;
     outline: none;
+}
+
+.signupWrapper {
+    background-image: url('/images/myownbg2.png');
+
 }

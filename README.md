@@ -3,6 +3,9 @@
 # Technologies used
 1. React vite
 2. Tailwindcss
+3. React Router
+4. Zod/react-hook-form (form validation)
+5. axios (for post and get requests)
 
 # React Vite Setup 
 1. npm create vite@latest

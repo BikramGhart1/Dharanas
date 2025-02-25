@@ -3,17 +3,29 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { signUpSchema } from '../formvalidations/validateform'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Signup() {
-    const {register,handleSubmit,formState:{errors}}=useForm({resolver:zodResolver(signUpSchema)});
-    const navigate=useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(signUpSchema) });
+    const navigate = useNavigate();
 
-    const onSubmit=(data)=>{
-        console.log("Form data: ",data);
-        setTimeout(()=>{
-        //    reset();
-           navigate('/home');
-        },1000)
+    const onSubmit = async (data) => {
+        // console.log("Form data: ", data);
+        try {
+            const response = await axios.post('http://localhost:3000/signup/signin', data, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            console.log("server response: ", response.data);
+            setTimeout(() => {
+                //    reset();
+                navigate('/home');
+            }, 1000)
+        } catch (err) {
+            console.error("Error: ", err.response?.data || err.message);
+        }
+
     }
     return (
 
@@ -28,7 +40,7 @@ export default function Signup() {
                 <input type="email" name="email" {...register("email")} id="email" className='border border-border outline-none' />
                 {errors.email && <p className='bg-red-400 p-1'>{errors.email.message}</p>}
 
-                
+
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="password">Password</label>

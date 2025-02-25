@@ -11,8 +11,8 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={
-          <div className='flex justify-center items-center min-h-screen m-auto'>
-          <SigninWrapper />
+          <div className='flex justify-center signupWrapper items-center min-h-screen m-auto'>
+            <SigninWrapper />
           </div>}>
           <Route index element={<Login />} />
           <Route path='signup' element={<Signup />} />

@@ -31,3 +31,8 @@
 2. Responsiveness
 3. Dynamic content changes
 
+# today's log
+# 25 Feb
+1. I made login function to get token from backend when password is correct
+2. But Hashing and storing the actual data from sign up in database part is still left 
+3. Then protected routes implementation left to do
