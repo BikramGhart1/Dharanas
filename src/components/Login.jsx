@@ -7,18 +7,18 @@ import axios from 'axios'
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(loginSchema) })
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post('http://localhost:3000/signup/login', data, {
         headers: { "Content-Type": "application/json" }
       });
-      localStorage.setItem('token',response.data.token);
+      localStorage.setItem('token', response.data.token);
       console.log("Server response: ", response.data);
-      setTimeout(()=>{
-           navigate('/home');
-      },1000)
+      setTimeout(() => {
+        navigate('/home');
+      }, 1000)
     } catch (err) {
       console.error("Error: ", err.response?.data || err.message);
     }
