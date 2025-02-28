@@ -57,7 +57,7 @@ export default function Signup() {
             </div>
 
             <div className='mt-3'>
-                <input type="submit" value="Sign Up" className='bg-primary text-text p-2 rounded-lg' />
+                <input type="submit" value="Sign Up" className='bg-primary text-text p-2 rounded-lg cursor-pointer' />
             </div>
         </form>
 
