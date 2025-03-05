@@ -4,6 +4,7 @@ import SigninWrapper from './components/SigninWrapper'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import HomePage from './components/HomePage'
+import AuthGuard from './components/AuthGuard'
 
 function App() {
 
@@ -18,8 +19,10 @@ function App() {
           <Route path='signup' element={<Signup />} />
           <Route path='login' element={<Login />} />
         </Route>
-        <Route path='/home' element={<HomePage />} />
-
+        <Route element={<AuthGuard />}>
+          <Route path='/home' element={<HomePage />} />
+        </Route>
+        <Route path='*' element={<h2>Resources not found</h2>} />
       </Routes>
     </>
   )

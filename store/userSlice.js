@@ -9,7 +9,7 @@ const initialState={
 }
 export const fetchUser= createAsyncThunk(
     "user/fetchUser",
-    async(_,{getState,rejectWithValue})=>{
+    async(_,{getState,rejectWithValue, dispatch})=>{
         try{
           const token=getState().user.token || localStorage.getItem('token');
           if(!token){
@@ -22,6 +22,10 @@ export const fetchUser= createAsyncThunk(
           })
           return response.data.user;
         }catch(err){
+            if(err.response && err.response.status===401){
+                dispatch(logout());
+                return rejectWithValue("Token expired! please login again");
+            }
             return rejectedWithValue(err.response?.data);
         }
     }
@@ -53,3 +57,6 @@ const userSlice=createSlice({
         })
     }
 })
+
+export const {logout}=userSlice.actions;
+export default userSlice.reducer;
