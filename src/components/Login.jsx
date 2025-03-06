@@ -11,7 +11,7 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://192.168.1.115:3000/signup/login', data, {
+      const response = await axios.post('http://localhost:3000/signup/login', data, {
         headers: { "Content-Type": "application/json" }
       });
       localStorage.setItem('token', response.data.token);
