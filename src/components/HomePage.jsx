@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,17 +16,22 @@ export default function HomePage() {
   useEffect(() => {
     if (error === "Token expired! please login again") {
       alert(error);
-      navigate('/login');
+      navigate('/signin/login');
     }
   }, [error, navigate]);
 
+  if (status == 'failed') {
+    return <div className='flex justify-center items-center min-h-svh'>
+     <p className='bg-red-400 p-3'>Server refused to connect. Please try again later</p> 
+      </div>
+  }
   return (
     <div className='text-text bg-background min-h-svh '>
       {userInfo ? (
         <p>Welcome {userInfo.username}</p>
       ) : (
         <div className='min-h-svh flex justify-center items-center'>
-        <p>{status}</p>
+          <p>{status}</p>
         </div>
       )}
     </div>

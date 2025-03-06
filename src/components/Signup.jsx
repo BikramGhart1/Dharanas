@@ -20,7 +20,7 @@ export default function Signup() {
             console.log("server response: ", response.data);
             setTimeout(() => {
                 //    reset();
-                navigate('/home');
+                navigate('/');
             }, 1000)
         } catch (err) {
             console.error("Error: ", err.response?.data || err.message);

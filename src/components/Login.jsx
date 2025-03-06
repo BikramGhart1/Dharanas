@@ -17,7 +17,7 @@ export default function Login() {
       localStorage.setItem('token', response.data.token);
       console.log("Server response: ", response.data);
       setTimeout(() => {
-        navigate('/home');
+        navigate('/');
       }, 1000)
     } catch (err) {
       console.error("Error: ", err.response?.data || err.message);

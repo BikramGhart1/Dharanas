@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { Link, Outlet, Route, Routes } from 'react-router-dom';
-import Signup from './Signup';
-import Login from './Login';
 
 export default function SigninWrapper() {
     const [hasAccount, setHasAccount] = useState(false);
@@ -27,12 +25,12 @@ export default function SigninWrapper() {
                             <div>
 
                                 <p>Already have an account?</p>
-                                <Link to='/' onClick={toggleHasAccount} className='cursor-pointer text-secondary font-bold p-2'>Log in</Link>
+                                <Link to='/signin/login' onClick={toggleHasAccount} className='cursor-pointer text-secondary font-bold p-2'>Log in</Link>
                             </div>
                         ) : (
                             <div>
                                 <p>Don't have an account?</p>
-                                <Link onClick={toggleHasAccount} to='/signup' className='cursor-pointer text-secondary font-bold p-2'>Sign Up</Link>
+                                <Link onClick={toggleHasAccount} to='/signin/signup' className='cursor-pointer text-secondary font-bold p-2'>Sign Up</Link>
 
                             </div>
                         )
