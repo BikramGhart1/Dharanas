@@ -15,7 +15,6 @@ export default function Login() {
         headers: { "Content-Type": "application/json" }
       });
       localStorage.setItem('token', response.data.token);
-      console.log("Server response: ", response.data);
       setTimeout(() => {
         navigate('/');
       }, 1000)
