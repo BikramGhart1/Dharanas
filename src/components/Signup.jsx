@@ -12,7 +12,7 @@ export default function Signup() {
     const onSubmit = async (data) => {
         // console.log("Form data: ", data);
         try {
-            const response = await axios.post('http://localhost:3000/signup/signin', data, {
+            const response = await axios.post('http://192.168.1.115:3000/signup/signin', data, {
                 headers: {
                     "Content-Type": "application/json"
                 }

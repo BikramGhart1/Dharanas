@@ -15,7 +15,7 @@ export const fetchUser= createAsyncThunk(
           if(!token){
             return rejectWithValue("No token found");
           }
-          const response=await axios.get('http://localhost:3000/user/userDetails',{
+          const response=await axios.get('http://192.168.1.115:3000/user/userDetails',{
             headers:{
                 Authorization: `Bearer ${token}`
             }
