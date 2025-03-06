@@ -21,6 +21,7 @@ export default function Login() {
       }, 1000)
     } catch (err) {
       console.error("Error: ", err.response?.data || err.message);
+      alert(err.message);
     }
   }
   return (
