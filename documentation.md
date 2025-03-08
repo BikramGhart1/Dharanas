@@ -36,3 +36,10 @@
 1. I made login function to get token from backend when password is correct
 2. But Hashing and storing the actual data from sign up in database part is still left 
 3. Then protected routes implementation left to do
+
+# I forgot to keep track of previous logs so directly today's log
+# 8 March
+1. Created a Layout page that will shape the navbar sidebars and main content
+2. created navbar, sidebars and homepage and profile picture page
+3. user can upload the profile picture image
+> Next I'll implement how image's url can be sent to database and design overall user profile page

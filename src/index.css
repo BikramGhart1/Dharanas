@@ -3,25 +3,38 @@
 @tailwind utilities;
 
 :root {
-    /* Primary Color */
-    --color-primary: #008170;
-  
-    /* Secondary Color */
-    --color-secondary: #005B41;
-  
-    /* Background Colors */
-    --color-background: #0F0F0F;
-    --color-background-secondary: #232D3F;
-  
-    /* Text Colors */
-    --color-text: #FFFFFF;
-    --color-text-secondary: #E0E0E0;
-  
-    /* Active/Hover Colors */
-    --color-active: #00A18F; /* Lightened Teal for hover/active states */
-    --color-emphasis: #007A5A; /* Lightened Dark Green for emphasis */
-  
-    /* Borders and Accents */
-    --color-border: #232D3F;
-  }
-  
+  /* Primary Color */
+  --color-primary: #008170;
+
+  /* Secondary Color */
+  --color-secondary: #005B41;
+
+  /* Background Colors */
+  --color-background: #0F0F0F;
+  --color-background-secondary: #1c1d20;
+
+  /* Text Colors */
+  --color-text: #FFFFFF;
+  --color-text-secondary: #E0E0E0;
+
+  /* Active/Hover Colors */
+  --color-active: #00A18F;
+  /* Lightened Teal for hover/active states */
+  --color-emphasis: #007A5A;
+  /* Lightened Dark Green for emphasis */
+
+  /* Borders and Accents */
+  --color-border: #232D3F;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebars {
+  @apply hidden md:flex flex-col w-[25%] bg-secondary rounded-md px-2 sticky pt-1 top-24 h-[calc(100vh-96px)] no-scrollbar overflow-y-auto 
+}
+
+.mainContent{
+  @apply mt-24 w-full md:w-[50%] min-h-screen pb-[700px] p-1 bg-secondary mx-3.5 rounded-md flex flex-col px-3 pt-3
+}
