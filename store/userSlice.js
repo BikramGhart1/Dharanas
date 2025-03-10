@@ -30,6 +30,35 @@ export const fetchUser = createAsyncThunk(
         }
     }
 )
+export const changepfp=createAsyncThunk(
+    "user/changepfp",
+    async(formData,{getState,rejectWithValue})=>{
+        try{
+
+            const token=getState().user.token || localStorage.getItem('token');
+            if(!token){
+             return rejectWithValue('No token found');
+            }
+            const response=await axios.post('http://localhost:3000/user/changepfp',
+                
+                    formData
+                ,{
+                headers:{
+                    Authorization:`Bearer ${token}`,
+                    "Content-Type":'multipart/form-data',
+                },
+               
+            })
+            if (!response.OK){
+                throw new Error("Failed to update the profile picture");
+            }
+            const data=await response.json();
+            return data;
+        }catch(err){
+          return rejectWithValue(err.message);
+        }
+    }
+)
 const userSlice = createSlice({
     name: 'user',
     initialState,

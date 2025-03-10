@@ -32,9 +32,9 @@
 }
 
 .sidebars {
-  @apply hidden md:flex flex-col w-[25%] bg-secondary rounded-md px-2 sticky pt-1 top-24 h-[calc(100vh-96px)] no-scrollbar overflow-y-auto 
+  @apply hidden md:flex flex-col w-[25%] bg-secondary rounded-md px-2 sticky pt-1 top-24 h-[calc(100vh-96px)] no-scrollbar overflow-y-auto
 }
 
-.mainContent{
-  @apply mt-24 w-full md:w-[50%] min-h-screen pb-[700px] p-1 bg-secondary mx-3.5 rounded-md flex flex-col px-3 pt-3
+.mainContent {
+  @apply mt-24 w-full md:w-[50%] min-h-screen pb-[0px] p-1 bg-secondary mx-3.5 rounded-md flex flex-col px-3 pt-3
 }
