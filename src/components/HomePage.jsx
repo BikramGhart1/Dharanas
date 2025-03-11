@@ -94,7 +94,7 @@ export default function HomePage() {
                   <p className='text-sm'>Author: <em className='text-emphasis'>{post.author}</em> </p>
                   <p className='text-sm opacity-40'>{post.date}</p>
                   <p className='pb-3'>{post.content}</p>
-                  <img src={post.image} alt={post.title} className='w-2/5'/>
+                  <img src={post.image} alt={post.title} className='w-2/5 py-3'/>
 
                   <button className='bg-primary px-4 py-1 rounded-lg'>Like</button>
                   <div className='flex flex-row justify-start gap-x-2 opacity-40'>
