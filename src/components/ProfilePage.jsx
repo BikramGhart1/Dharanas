@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { changepfp } from '../../store/userSlice';
+import { Link, Outlet } from 'react-router-dom';
+import SubProfileWrapper from './profileNavs/SubProfileWrapper';
 
 export default function ProfilePage() {
     const pfpRef = useRef();
@@ -8,8 +10,31 @@ export default function ProfilePage() {
     const [pfpfile, setPfpFile] = useState(null);
     // const [previewURL, setPreviewURL] = useState(userInfo?.profile_picture || null)
     const dispatch = useDispatch();
-    const userPfp=userInfo?.profile_picture;
+    const [editMode, setEditMode] = useState(false);
+    const [tempUserInfo, setTempUserInfo] = useState({
+        username: "",
+        bio: ""
+    })
 
+    const [justClicked, setJustClicked] = useState('posts');
+    useEffect(() => {
+        setTempUserInfo({
+            username: userInfo?.username,
+            bio: userInfo?.bio
+        })
+    }, [userInfo]);
+    const userPfp = userInfo?.profile_picture;
+
+    const justClickedHandler = (e) => {
+        setJustClicked(e.target);
+    }
+    const userInfoEditHandle = (e) => {
+
+    }
+    const inputOnchangeHandler = (e) => {
+        console.log(tempUserInfo);
+        setTempUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    }
     const pfpHandler = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -33,17 +58,62 @@ export default function ProfilePage() {
     }
     return (
         <main className='mainContent'>
-            <div>
+            <div className='flex flex-row md:justify-around justify-between pt-3 '>
+                <div className='mr-8'>
+                    <img src={userPfp ? userPfp : 'https://avatars.githubusercontent.com/u/132071114?v=4'} alt="pfp" onClick={() => { pfpRef.current.click() }} className='w-20 h-20 md:w-32 md:h-32 cursor-pointer object-cover rounded-full aspect-square border-2 border-border' />
+                </div>
+                <div className='md:px-4 md:w-1/2  flex flex-col flex-1'>
+                    {
+                        editMode ? (
+                            <form className='w-full'>
+                                <div className='flex flex-row justify-between'>
+                                    <input type='text' name='username' value={tempUserInfo.username} autoFocus onChange={inputOnchangeHandler} className='border-b border-solid border-border bg-transparent rounded-none mb-2 text-text-secondary opacity-70' />
+                                    <button type="submit" onClick={() => { setEditMode(!editMode) }}>Save</button>
+                                </div>
+                                <div className='w-full'>
+                                    <label htmlFor="bio">Edit Bio</label>
+                                    <textarea name="bio" id="bio" value={tempUserInfo.bio} onChange={inputOnchangeHandler} className='w-full mt-2 border border-solid border-border bg-transparent px-1 min-h-20 outline-none'></textarea>
+                                </div>
 
-                <img src={userPfp?userPfp:'https://instagram.fktm20-1.fna.fbcdn.net/v/t51.2885-19/482637126_1399700334734561_1513040046386038325_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=instagram.fktm20-1.fna.fbcdn.net&_nc_cat=105&_nc_oc=Q6cZ2AHGqBWGQ5nxDdXf0Xqnl7w5xRsxZg-EWjEw2AF_eW3zn3Z8Z9ZfVKPSVTnJcqwBrdw&_nc_ohc=cPXiPI900CIQ7kNvgHyTqi-&_nc_gid=cdc126e28ef34f7c8e9d49decf245f31&edm=ALGbJPMBAAAA&ccb=7-5&oh=00_AYHbq9hfar_BRbE7UhEd81CDg8DMgCMjRoqVC2V3DWD_FA&oe=67D4E8CE&_nc_sid=7d3ac5'} alt="pfp" onClick={() => { pfpRef.current.click() }} className='w-32 h-32 cursor-pointer object-cover rounded-full' />
+                            </form>
+                        ) : (
+                            <div>
+                                <div className='flex flex-row justify-start gap-x-6'>
 
-                <p className='font-semibold pl-3 pt-3'>{userInfo?.username || 'Guest'}</p>
+                                    <p className='font-semibold text-lg'>{userInfo?.username || 'Guest'}</p>
+                                    <button className='bg-primary p-1 px-4 rounded-md' onClick={() => { setEditMode(!editMode) }}>Edit</button>
+                                </div>
+                                <div>
+                                    <p>This is user's bio</p>
+
+                                </div>
+                            </div>
+                        )
+                    }
+                    <div className='flex flex-row justify-start gap-x-4'>
+                        <p>3 Followers</p>
+                        <p>4 Following</p>
+                    </div>
+                </div>
             </div>
-            <form encType='multipart/form-data' onSubmit={onpfpSubmit}>
-                <p>change your profile picture</p>
-                <input type="file" ref={pfpRef} accept='image/*' onChange={pfpHandler} name="pfp" id="pfp" className='cursor-pointer' />
-                <button type="submit" className='bg-primary px-2 py-1 rounded-md font-semibold'>Submit</button>
-            </form>
-        </main>
+            <div className='flex flex-col items-center pt-5'>
+
+                {
+                    editMode
+                    &&
+                    <form encType='multipart/form-data' onSubmit={onpfpSubmit} className='pb-10'>
+                        <p>change your profile picture</p>
+                        <input type="file" ref={pfpRef} accept='image/*' onChange={pfpHandler} name="pfp" id="pfp" className='cursor-pointer' />
+                        <button type="submit" className='bg-primary px-2 py-1 rounded-md font-semibold'>Submit Picture</button>
+                    </form>
+                }
+            </div>
+            <SubProfileWrapper/>
+            <div className='flex justify-center items-start mt-4 pt-4 w-full border-t-2 border-border'>
+
+                <Outlet />
+            </div>
+
+        </main >
     )
 }

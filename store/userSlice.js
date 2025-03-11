@@ -52,8 +52,7 @@ export const changepfp=createAsyncThunk(
             if (!response.OK){
                 throw new Error("Failed to update the profile picture");
             }
-            const data=await response.json();
-            return data;
+            return response.data;
         }catch(err){
           return rejectWithValue(err.message);
         }
@@ -67,8 +66,8 @@ const userSlice = createSlice({
             localStorage.removeItem('token');
             state.token = null;
             state.userInfo = null;
-            user.status = null;
-            user.error = null;
+            state.status = null;
+            state.error = null;
         }
     },
     extraReducers: (builder) => {

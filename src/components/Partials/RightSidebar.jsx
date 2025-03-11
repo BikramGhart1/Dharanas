@@ -3,10 +3,10 @@ import React from 'react'
 export default function RightSidebar() {
 
     return (
-        <aside className='sidebars'>
+        <aside className='rightSidebar'>
             <div className='flex flex-row justify-between'>
-                <h3>Recent Posts</h3>
-                <p>Clear</p>
+                <h3 className='font-semibold'>Recent Posts</h3>
+                <p className='font-semibold'>Clear</p>
 
             </div>
             <div>
