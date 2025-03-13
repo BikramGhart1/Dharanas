@@ -34,12 +34,12 @@ export const changepfp=createAsyncThunk(
     "user/changepfp",
     async(formData,{getState,rejectWithValue})=>{
         try{
-
+            const uid=getState().user.userInfo.uid;
             const token=getState().user.token || localStorage.getItem('token');
             if(!token){
              return rejectWithValue('No token found');
             }
-            const response=await axios.post('http://localhost:3000/user/changepfp',
+            const response=await axios.post(`http://localhost:3000/user/changepfp/${uid}`,
                 
                     formData
                 ,{
@@ -49,10 +49,11 @@ export const changepfp=createAsyncThunk(
                 },
                
             })
-            if (!response.OK){
+            if (response.status!==200){
                 throw new Error("Failed to update the profile picture");
             }
-            return response.data;
+            console.log('profile picture response data ',response.data);
+            return response.data.pfp;
         }catch(err){
           return rejectWithValue(err.message);
         }
@@ -62,6 +63,10 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        loginSuccess:(state,action)=>{
+           state.token=action.payload;
+           localStorage.setItem('token',action.payload);
+        },
         logout: (state, action) => {
             localStorage.removeItem('token');
             state.token = null;
@@ -77,14 +82,26 @@ const userSlice = createSlice({
             })
             .addCase(fetchUser.fulfilled, (state, action) => {
                 state.status = 'completed';
+                console.log(action.payload);
                 state.userInfo = action.payload;
             })
             .addCase(fetchUser.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             })
+            .addCase(changepfp.pending,(state,action)=>{
+                state.status='loading';
+            })
+            .addCase(changepfp.fulfilled,(state,action)=>{
+                state.status='completed';
+                state.userInfo={...state.userInfo,profile_picture:action.payload};
+            })
+            .addCase(changepfp.rejected,(state,action)=>{
+                state.status='failed';
+                state.error=action.payload;
+            })
     }
 })
 
-export const { logout } = userSlice.actions;
+export const { loginSuccess,logout } = userSlice.actions;
 export default userSlice.reducer;

@@ -16,7 +16,7 @@ export default function HomePage() {
       comments: [
         {
           cid: 1,
-          comment: "I thought of stealing money from my father's pocket.",
+          comment: "ngl I thought of stealing money from my father's pocket.",
           cauthor: "Rectangle",
         }, {
           cid: 2,

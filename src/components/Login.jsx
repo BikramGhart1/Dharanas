@@ -4,19 +4,26 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { loginSchema } from '../formvalidations/validateform'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { loginSuccess } from '../../store/userSlice'
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(loginSchema) })
   const navigate = useNavigate();
   const [loginErrors, setErrorLogins] = useState(null);
+  const dispatch = useDispatch()
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post('http://localhost:3000/signup/login', data, {
         headers: { "Content-Type": "application/json" }
       });
-      localStorage.setItem('token', response.data.token);
+      const token = response.data.token;
+
+      //This is to make sure redux is updated
+      dispatch(loginSuccess(token));
       console.log(response);
+
       setTimeout(() => {
         navigate('/');
       }, 1000)

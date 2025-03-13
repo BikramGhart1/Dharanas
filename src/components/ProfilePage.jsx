@@ -24,6 +24,7 @@ export default function ProfilePage() {
         })
     }, [userInfo]);
     const userPfp = userInfo?.profile_picture;
+    console.log(userPfp);
 
     const justClickedHandler = (e) => {
         setJustClicked(e.target);
@@ -55,12 +56,15 @@ export default function ProfilePage() {
         formData.append('uid', userInfo?.uid);
 
         dispatch(changepfp(formData));
+        setEditMode(!editMode)
     }
     return (
         <main className='mainContent'>
             <div className='flex flex-row md:justify-around justify-between pt-3 '>
                 <div className='mr-8'>
                     <img src={userPfp ? userPfp : 'https://avatars.githubusercontent.com/u/132071114?v=4'} alt="pfp" onClick={() => { pfpRef.current.click() }} className='w-20 h-20 md:w-32 md:h-32 cursor-pointer object-cover rounded-full aspect-square border-2 border-border' />
+                    {/* <img src="http://localhost:3000/demo/johnpork.jpeg" alt="img" /> */}
+                    {/* <img src="http://localhost:3000/demo/subdir/jokerlaugh.png" alt="img" /> */}
                 </div>
                 <div className='md:px-4 md:w-1/2  flex flex-col flex-1'>
                     {

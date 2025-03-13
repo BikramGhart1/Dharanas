@@ -53,6 +53,35 @@ Backend Part
 # additional:
 While serving static file and sending the image's url we must include server's url too for e.g. 'http://localhost:3000/imageURL" 
 
+
+# Using fs and path to manipulate files
+Alright It is Mar 13 2025 today and Whole day I spent working on a simple feature and now I have PTSD on this thing
+
+So what I was doing, When we upload a profile picture it must go somewhere right? For that initially I had created a directory called uploads and all the pfp images were being dumped there through the multer now as users grow we can't keep all their pfp in single directories so I planned to create sub directories for each user based on their uid.
+
+I used 
+
+> fs.mkdirSync('dirname') 
+
+to create the directory
+
+At first I was thinking where is directory I just made in my VS code? I even doubted if I need to run as admin to get write access and create dir but after a very long time i realized I had created uploads directoy inside controllers directory I know such a silly mistake but this too made our image url incorrect and images weren't displaying in frontend 
+
+And I added another feature that is to delete previous pfp so that in my uploads dir images dont keep increasing unnecessarily. 
+
+> fs.unlinkSync('filenameWithPath')
+
+So main challenge was to configure correct path and handling the files
+
+* note : So I learnt that static folder are used to serve the files in frontend as if they are the local files (kinda)
+To be more accurate We can access the directory that is located in backend from frontend 
+
+Use express for this
+
+> app.use('/dirname',express.static('path'));
+
+* These Things should have been written in backend repo but ig its okay
+
 # Authentication and Protected Route
 1. User logins with email and password 
 2. we compare the hashed password with entered password
