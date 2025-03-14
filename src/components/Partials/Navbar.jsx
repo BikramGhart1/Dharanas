@@ -1,3 +1,4 @@
+import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
@@ -23,7 +24,14 @@ export default function Navbar() {
       <Link to='/' className="text-2xl font-bold tracking-wide">
         DHARANAS
       </Link>
-
+      <div className='flex-1 mx-60 relative'>
+        
+        <input
+          type="text"
+          placeholder="Search users..."
+          className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+        />
+      </div>
       <div className="flex items-center space-x-4">
         <p className="text-lg font-medium hover:text-gray-400 transition">
           {userInfo?.username}
