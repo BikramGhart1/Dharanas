@@ -12,6 +12,7 @@ import Posts from './components/profileNavs/Posts'
 import Comments from './components/profileNavs/Comments'
 import Liked from './components/profileNavs/Liked'
 import SubProfileWrapper from './components/profileNavs/SubProfileWrapper'
+import CreatePost from './components/CreatePost'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/' element={<AuthGuard />}>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
+            <Route path='/createPost' element={<CreatePost/>}/>
             <Route path='/profile' element={<ProfilePage />}>
               <Route index element={<Posts />} />
               <Route path='saved' element={<Saved />} />

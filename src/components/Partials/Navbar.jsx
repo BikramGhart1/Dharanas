@@ -20,9 +20,9 @@ export default function Navbar() {
   // },[])
   return (
     <nav className={`fixed w-full z-50 top-0 flex justify-between items-center bg-secondary text-text px-6 py-4 shadow-lg transition-all duration-200`}>
-      <div className="text-2xl font-bold tracking-wide">
+      <Link to='/' className="text-2xl font-bold tracking-wide">
         DHARANAS
-      </div>
+      </Link>
 
       <div className="flex items-center space-x-4">
         <p className="text-lg font-medium hover:text-gray-400 transition">

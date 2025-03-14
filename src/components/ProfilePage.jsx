@@ -71,12 +71,13 @@ export default function ProfilePage() {
                         editMode ? (
                             <form className='w-full'>
                                 <div className='flex flex-row justify-between'>
-                                    <input type='text' name='username' value={tempUserInfo.username} autoFocus onChange={inputOnchangeHandler} className='border-b border-solid border-border bg-transparent rounded-none mb-2 text-text-secondary opacity-70' />
-                                    <button type="submit" onClick={() => { setEditMode(!editMode) }}>Save</button>
+                                    <input type='text' name='username' value={tempUserInfo.username} autoFocus onChange={inputOnchangeHandler} className='border-b border-solid border-border bg-transparent rounded-lg mb-2 text-text-secondary opacity-70 focus:ring-2 focus:ring-primary ' />
+                                    <button type="submit" onClick={() => { setEditMode(!editMode) }} className='bg-primary px-4 rounded-lg font-semibold'>Save</button>
                                 </div>
                                 <div className='w-full'>
                                     <label htmlFor="bio">Edit Bio</label>
-                                    <textarea name="bio" id="bio" value={tempUserInfo.bio} onChange={inputOnchangeHandler} className='w-full mt-2 border border-solid border-border bg-transparent px-1 min-h-20 outline-none'></textarea>
+                                    <textarea name="bio" id="bio" value={tempUserInfo.bio} onChange={inputOnchangeHandler} className='w-full mt-2 border border-solid border-border bg-transparent px-2 min-h-24 rounded-lg outline-none p-3 focus:ring-2 focus:ring-primary resize-none'></textarea>
+                                    <p className='text-right text-sm opacity-45 font-semibold'>0/500</p>
                                 </div>
 
                             </form>
@@ -106,8 +107,9 @@ export default function ProfilePage() {
                     editMode
                     &&
                     <form encType='multipart/form-data' onSubmit={onpfpSubmit} className='pb-10'>
-                        <p>change your profile picture</p>
-                        <input type="file" ref={pfpRef} accept='image/*' onChange={pfpHandler} name="pfp" id="pfp" className='cursor-pointer' />
+                        
+                        <p className='text-sm'>Change your profile picture</p>
+                        <input type="file" ref={pfpRef} accept='image/*' onChange={pfpHandler} name="pfp" id="pfp" className='cursor-pointer text-text' />
                         <button type="submit" className='bg-primary px-2 py-1 rounded-md font-semibold'>Submit Picture</button>
                     </form>
                 }
