@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, isRejectedWithValue } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const initialState = {
@@ -30,32 +30,61 @@ export const fetchUser = createAsyncThunk(
         }
     }
 )
-export const changepfp=createAsyncThunk(
+export const changepfp = createAsyncThunk(
     "user/changepfp",
-    async(formData,{getState,rejectWithValue})=>{
-        try{
-            const uid=getState().user.userInfo.uid;
-            const token=getState().user.token || localStorage.getItem('token');
-            if(!token){
-             return rejectWithValue('No token found');
+    async (formData, { getState, rejectWithValue }) => {
+        try {
+            const uid = getState().user.userInfo.uid;
+            const token = getState().user.token || localStorage.getItem('token');
+            if (!token) {
+                return rejectWithValue('No token found');
             }
-            const response=await axios.post(`http://localhost:3000/user/changepfp/${uid}`,
-                
-                    formData
-                ,{
-                headers:{
-                    Authorization:`Bearer ${token}`,
-                    "Content-Type":'multipart/form-data',
-                },
-               
-            })
-            if (response.status!==200){
+            const response = await axios.post(`http://localhost:3000/user/changepfp/${uid}`,
+
+                formData
+                , {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": 'multipart/form-data',
+                    },
+
+                })
+            if (response.status !== 200) {
                 throw new Error("Failed to update the profile picture");
             }
-            console.log('profile picture response data ',response.data);
+            console.log('profile picture response data ', response.data);
             return response.data.pfp;
-        }catch(err){
-          return rejectWithValue(err.message);
+        } catch (err) {
+            return rejectWithValue(err.message);
+        }
+    }
+)
+
+export const updateProfile = createAsyncThunk(
+    "user/updateProfile",
+    async (formData, { getState, rejectWithValue }) => {
+        try {
+            const uid = getState().user.userInfo.uid;
+            const token = getState().user.token || localStorage.getItem('token');
+            if (!token) {
+                return rejectWithValue("No token found");
+            }
+            const response = await axios.post(`http://localhost:3000/user/editProfile/${uid}`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                },
+            )
+            if (response.status !== 200) {
+                throw new Error("Failed to update the profile");
+            }
+            console.log("profile updation response data: ", response.data)
+            return response.data.data;
+        } catch (err) {
+            return rejectWithValue(err.message)
         }
     }
 )
@@ -63,9 +92,9 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        loginSuccess:(state,action)=>{
-           state.token=action.payload;
-           localStorage.setItem('token',action.payload);
+        loginSuccess: (state, action) => {
+            state.token = action.payload;
+            localStorage.setItem('token', action.payload);
         },
         logout: (state, action) => {
             localStorage.removeItem('token');
@@ -89,19 +118,30 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
-            .addCase(changepfp.pending,(state,action)=>{
-                state.status='loading';
+            .addCase(changepfp.pending, (state, action) => {
+                state.status = 'loading';
             })
-            .addCase(changepfp.fulfilled,(state,action)=>{
-                state.status='completed';
-                state.userInfo={...state.userInfo,profile_picture:action.payload};
+            .addCase(changepfp.fulfilled, (state, action) => {
+                state.status = 'completed';
+                state.userInfo = { ...state.userInfo, profile_picture: action.payload };
             })
-            .addCase(changepfp.rejected,(state,action)=>{
-                state.status='failed';
-                state.error=action.payload;
+            .addCase(changepfp.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(updateProfile.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.status = 'completed';
+                state.userInfo = { ...state.userInfo, username: action.payload.username, bio: action.payload.bio };
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             })
     }
 })
 
-export const { loginSuccess,logout } = userSlice.actions;
+export const { loginSuccess, logout } = userSlice.actions;
 export default userSlice.reducer;

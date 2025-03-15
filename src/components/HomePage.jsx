@@ -99,7 +99,7 @@ export default function HomePage() {
           <div>
             {
               fakePost.map((post) => {
-                return <div key={post.pid} className='p-3 mt-4 bg-background-secondary rounded-lg '>
+                return <div key={post.pid} className='p-3 my-4 bg-background-secondary rounded-lg '>
                   <p className='font-bold text-primary'>{post.title}</p>
                   <p className='text-sm'>Author: <em className='text-emphasis'>{post.author}</em> </p>
                   <p className='text-sm opacity-40'>{post.date}</p>

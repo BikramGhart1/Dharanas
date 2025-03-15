@@ -18,8 +18,8 @@ export default function Sidebar() {
       <div className='bg-background-secondary p-32 rounded-2xl bg-opacity-95 flex flex-col gap-y-4'>
       <p>Are you sure you want to Logout?</p>
       <div className='flex flex-row justify-start gap-x-10'>
-        <button onClick={LogoutHandler}>Yes</button>
-        <button onClick={()=>{setLogoutWindow(false)}}>No</button>
+        <button onClick={LogoutHandler} className='bg-red-400 px-4 py-1 rounded-lg hover:bg-red-500 active:bg-red-600'>Yes</button>
+        <button onClick={()=>{setLogoutWindow(false)}} className='bg-primary px-4 py-1 rounded-lg hover:bg-emphasis active:bg-active'>No</button>
       </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ export const loginSchema = z.object({
 })
 
 export const signUpSchema = z.object({
-    username: z.string().min(1, "Username can't be empty"),
+    username: z.string().min(1, "Username can't be empty").max(18, "Username can't be more than 18 characters"),
     email: z
         .string()
         .min(1, "Email is required")
@@ -23,4 +23,9 @@ export const signUpSchema = z.object({
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Password must match the confirm password",
     path: ["confirmPassword"],
+})
+
+export const profileUpdateSchema = z.object({
+    username: z.string().min(1, "Username can't be empty").max(18, "Username can't be more than 18 characters"),
+    bio: z.string().max(500, "Bio can't be more than 500 characters"),
 })
