@@ -36,6 +36,7 @@ export const changepfp = createAsyncThunk(
         try {
             const uid = getState().user.userInfo.uid;
             const token = getState().user.token || localStorage.getItem('token');
+
             if (!token) {
                 return rejectWithValue('No token found');
             }
