@@ -43,3 +43,11 @@
 2. created navbar, sidebars and homepage and profile picture page
 3. user can upload the profile picture image
 > Next I'll implement how image's url can be sent to database and design overall user profile page
+
+# March 18
+1. Using nested routes implemented followings and followers components
+
+* Things left to do
+2. Still issues in route indexings need to fix them
+3. apply backend with the searching users
+4. toggle the close and open followee window
