@@ -6,6 +6,7 @@ import SubProfileWrapper from './profileNavs/SubProfileWrapper';
 import { profileUpdateSchema } from '../formvalidations/validateform';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Followee from './Followee';
 
 
 
@@ -15,7 +16,7 @@ const ProfilePage = () => {
     const [pfpfile, setPfpFile] = useState(null);
     const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
-
+    const [openFollowee,setOpenFollowee]=useState(false);
 
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: zodResolver(profileUpdateSchema),
@@ -29,7 +30,7 @@ const ProfilePage = () => {
         if (userInfo) {
             reset({
                 username: userInfo.username,
-                bio: userInfo.bio 
+                bio: userInfo.bio
             });
         }
     }, [userInfo, reset]);
@@ -71,15 +72,18 @@ const ProfilePage = () => {
         dispatch(changepfp(formData));
         setEditMode(!editMode)
     }, [pfpfile, userInfo, dispatch])
-
+    
+    const toggleOpenFollowee=()=>{
+        setOpenFollowee((prev)=>!prev);
+    }
 
     return (
-        <main className='mainContent'>
+        <main className='mainContent relative'>
             <div className='flex flex-row md:justify-around justify-between pt-3 '>
                 <div className='mr-8'>
                     <img src={userPfp ? userPfp : '/images/guest.png'} alt="pfp" onClick={() => { pfpRef.current.click() }} className='w-20 h-20 md:w-32 md:h-32 cursor-pointer object-cover rounded-full aspect-square border-2 border-border' />
                 </div>
-                <div className='md:px-4 md:w-1/2  flex flex-col flex-1'>
+                <div className='md:px-4 md:w-1/2 flex flex-col flex-1'>
                     {
                         editMode ? (
                             <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
@@ -110,12 +114,15 @@ const ProfilePage = () => {
                             </div>
                         )
                     }
-                    <div className='flex flex-row justify-start gap-x-4'>
-                        <p>3 Followers</p>
-                        <p>4 Following</p>
+                    <div className='flex flex-row justify-start pt-2 gap-x-4 followee' onClick={toggleOpenFollowee}>
+                        <p className='followee'><em className='not-italic font-semibold pr-1'>109</em> Followers</p>
+                        <p className='followee'><em className='not-italic font-semibold pr-1'>145</em> Following</p>
                     </div>
                 </div>
             </div>
+            {/* <Followers /> */}{
+                openFollowee && <Followee toggleOpenFollowee={toggleOpenFollowee}/>
+            }
             <div className='flex flex-col items-center pt-5'>
 
                 {

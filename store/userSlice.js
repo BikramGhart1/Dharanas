@@ -103,7 +103,7 @@ const userSlice = createSlice({
             state.userInfo = null;
             state.status = null;
             state.error = null;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder

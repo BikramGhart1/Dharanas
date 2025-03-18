@@ -15,7 +15,7 @@
 
   /* Text Colors */
   --color-text: #FFFFFF;
-  --color-text-secondary: #E0E0E0;
+  --color-text-secondary: #858585;
 
   /* Active/Hover Colors */
   --color-active: #00A18F;
@@ -55,4 +55,16 @@
 
 .zindex100{
   z-index: 100;
+}
+
+.recentPostsWrapper{
+  @apply p-2 bg-background-secondary rounded-lg hover:bg-background cursor-pointer flex flex-col justify-center
+}
+
+.recentPostImg{
+  @apply hover:scale-105 hover:rounded-b-lg transition-all ease-in rounded-lg hover:rounded-none hover:pt-4 overflow-hidden object-cover
+}
+
+.followee{
+  @apply hover:text-text-secondary cursor-pointer
 }

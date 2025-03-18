@@ -36,6 +36,7 @@ export default function Layout() {
                 <Outlet/>
                 <RightSidebar />
             </div>
+            {/* <Following/> */}
         </div>
     )
 }

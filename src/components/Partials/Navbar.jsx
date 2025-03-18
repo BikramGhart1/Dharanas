@@ -3,6 +3,58 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 
+let isFullLength=false;
+
+export const Searchbar = ({isFullLength}) => {
+
+  const [searchText, setSearchText] = useState('');
+
+    const handleSearchInput = (e) => {
+        setSearchText(e.target.value);
+    }
+    const clearSearchText = () => {
+      setSearchText('');
+    }
+    
+  return <div className={`relative ${isFullLength?`w-full`:`w-2/5`} mx-auto`}>
+  {/* Search Input */}
+  <input
+    type="text"
+    name="search"
+    id="search"
+    placeholder="Search Users..."
+    className="w-full pl-5 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+    onChange={handleSearchInput}
+    value={searchText}
+  />
+
+  {/* Search Icon Inside Input */}
+  <i className="fas fa-search  absolute right-3 top-1/2 -translate-y-1/2 text-lg text-primary font-bold hover:text-emphasis hover:scale-105 cursor-pointer transition-all ease-in"></i>
+
+  {/* Clear Button (Shown Only When There's Text) */}
+  {searchText && (
+    <button
+      className="absolute right-10 top-1/2 -translate-y-1/2 bg-gray-300 p-1 px-2 rounded-none hover:bg-gray-400 transition-all ease-in"
+      onClick={clearSearchText}
+    >
+      <i className="fas fa-times text-lg text-primary font-bold hover:text-emphasis hover:scale-105 cursor-pointer transition-all ease-in"></i>
+    </button>
+  )}
+</div>
+}
+
+export const AlternativeSearchBar = () => {
+  return <div className='flex-1 mx-60 relative flex flex-row'>
+
+    <input
+      type="text"
+      placeholder="Search users..."
+      className="w-full pl-5 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+    />
+    <i className="fas fa-search absolute right-3 top-2 text-lg text-primary font-bold hover:text-emphasis hover:scale-105 cursor-pointer transition-all ease-in"></i>
+  </div>
+}
+
 export default function Navbar() {
   const { userInfo } = useSelector((state) => state.user)
   const profile_picture = userInfo?.profile_picture || null;
@@ -24,14 +76,8 @@ export default function Navbar() {
       <Link to='/' className="text-2xl font-bold tracking-wide">
         DHARANAS
       </Link>
-      <div className='flex-1 mx-60 relative'>
-        
-        <input
-          type="text"
-          placeholder="Search users..."
-          className="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-        />
-      </div>
+      <Searchbar isFullLength={isFullLength}/>
+      {/* <AlternativeSearchBar/> */}
       <div className="flex items-center space-x-4">
         <p className="text-lg font-medium hover:text-gray-400 transition">
           {userInfo?.username}

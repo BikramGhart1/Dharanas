@@ -12,7 +12,7 @@ export default {
         background: '#0F0F0F',
         'background-secondary': '#232D3F',
         text: '#FFFFFF',
-        'text-secondary': '#E0E0E0',
+        'text-secondary': '#858585',
         active: '#00A18F', // Lightened Teal for hover/active states
         emphasis: '#007A5A', // Lightened Dark Green for emphasis
         border: '#232D3F',
