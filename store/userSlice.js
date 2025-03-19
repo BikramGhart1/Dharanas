@@ -5,7 +5,31 @@ const initialState = {
     userInfo: null,
     token: localStorage.getItem('token') || null,
     status: 'idle',
-    error: null
+    error: null,
+    social:{
+        following:{
+            id:[],
+            pagination:{
+                page:1,
+                limit:10,
+                total:0,
+                hasMore:true
+            },
+            status:'idle',
+            error:null,
+        },
+        followers:{
+            id:[],
+            pagination:{
+                page:1,
+                limit:10,
+                total:0,
+                hasMore:true
+            },
+            status:'idle',
+            error:null,
+        },
+    }
 }
 export const fetchUser = createAsyncThunk(
     "user/fetchUser",
@@ -99,10 +123,7 @@ const userSlice = createSlice({
         },
         logout: (state, action) => {
             localStorage.removeItem('token');
-            state.token = null;
-            state.userInfo = null;
-            state.status = null;
-            state.error = null;
+            return initialState;
         },
     },
     extraReducers: (builder) => {

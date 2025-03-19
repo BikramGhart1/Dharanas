@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import SigninWrapper from './components/SigninWrapper'
 import Signup from './components/Signup'
@@ -14,6 +14,7 @@ import Liked from './components/profileNavs/Liked'
 import SubProfileWrapper from './components/profileNavs/SubProfileWrapper'
 import CreatePost from './components/CreatePost'
 import Followee, { Followers, Following } from './components/Followee'
+import User from './components/User'
 
 function App() {
 
@@ -25,12 +26,13 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path='/createPost' element={<CreatePost />} />
-            <Route path='/profile' element={<ProfilePage />}>
+            <Route path='/profile/:uid' element={<ProfilePage />}>
               <Route index element={<Posts />} />
               <Route path='saved' element={<Saved />} />
               <Route path='comments' element={<Comments />} />
               <Route path='liked' element={<Liked />} />
               <Route path='followee' element={<Followee />}>
+                <Route index element={<Navigate to='followers' replace/>}/>
                 <Route path='followers' element={<Followers />} />
                 <Route path='following' element={<Following />} />
               </Route>

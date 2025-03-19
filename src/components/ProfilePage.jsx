@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { changepfp, updateProfile } from '../../store/userSlice';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import SubProfileWrapper from './profileNavs/SubProfileWrapper';
 import { profileUpdateSchema } from '../formvalidations/validateform';
 import { useForm } from 'react-hook-form';
@@ -16,7 +16,12 @@ const ProfilePage = () => {
     const [pfpfile, setPfpFile] = useState(null);
     const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
-    const [openFollowee,setOpenFollowee]=useState(false);
+    const navigate=useNavigate();
+    const {uid}=useParams();
+    // const [openFollowee,setOpenFollowee]=useState(false);
+    
+    const isAdmin=uid===userInfo?.uid;
+    console.log("Is admin: ",isAdmin);
 
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: zodResolver(profileUpdateSchema),
@@ -73,9 +78,9 @@ const ProfilePage = () => {
         setEditMode(!editMode)
     }, [pfpfile, userInfo, dispatch])
     
-    const toggleOpenFollowee=()=>{
-        setOpenFollowee((prev)=>!prev);
-    }
+    // const toggleOpenFollowee=()=>{
+    //     setOpenFollowee((prev)=>!prev);
+    // }
 
     return (
         <main className='mainContent relative'>
@@ -114,15 +119,13 @@ const ProfilePage = () => {
                             </div>
                         )
                     }
-                    <div className='flex flex-row justify-start pt-2 gap-x-4 followee' onClick={toggleOpenFollowee}>
+                    <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={()=>{navigate('followee')}}>
                         <p className='followee'><em className='not-italic font-semibold pr-1'>109</em> Followers</p>
                         <p className='followee'><em className='not-italic font-semibold pr-1'>145</em> Following</p>
                     </div>
                 </div>
             </div>
-            {/* <Followers /> */}{
-                openFollowee && <Followee toggleOpenFollowee={toggleOpenFollowee}/>
-            }
+            
             <div className='flex flex-col items-center pt-5'>
 
                 {
