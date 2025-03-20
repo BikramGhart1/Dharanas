@@ -90,3 +90,8 @@ Use express for this
 5. Whenever trying to access protected routes include token for requests
 6. Create a middleware to authenticate the token 
 7. put that middleware before the controller middleware to make protected routes
+
+# issues
+1. when user search their own account pfp is not appeating Navbar: 29 line
+
+2. implement follow logics

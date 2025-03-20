@@ -68,3 +68,15 @@
 .followee{
   @apply hover:text-text-secondary cursor-pointer
 }
+
+.glow-box {
+  /* width: 150px; */
+  /* height: 150px; */
+  background-color: #008170;
+  box-shadow: 0 0 15px #008170, 0 0 30px #008170, 0 0 45px #008170;
+  /* border-radius: 10px; */
+}
+
+.smallPfp{
+  @apply w-12 h-12 object-cover overflow-hidden rounded-full border-2 border-gray-500 hover:scale-105 transition duration-300
+}

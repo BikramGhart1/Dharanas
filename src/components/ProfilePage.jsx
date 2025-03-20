@@ -17,11 +17,8 @@ const ProfilePage = () => {
     const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
     const navigate=useNavigate();
-    const {uid}=useParams();
     // const [openFollowee,setOpenFollowee]=useState(false);
     
-    const isAdmin=uid===userInfo?.uid;
-    console.log("Is admin: ",isAdmin);
 
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: zodResolver(profileUpdateSchema),
@@ -140,8 +137,7 @@ const ProfilePage = () => {
                 }
             </div>
             <SubProfileWrapper />
-            <div className='flex justify-center items-start mt-4 pt-4 w-full border-t-2 border-border'>
-
+            <div className='flex justify-center items-start mt-1 pt-4 w-full border-t-2 border-border'>
                 <Outlet />
             </div>
 

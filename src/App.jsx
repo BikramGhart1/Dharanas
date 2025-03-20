@@ -26,13 +26,22 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path='/createPost' element={<CreatePost />} />
-            <Route path='/profile/:uid' element={<ProfilePage />}>
+            <Route path='/profile' element={<ProfilePage />}>
               <Route index element={<Posts />} />
               <Route path='saved' element={<Saved />} />
               <Route path='comments' element={<Comments />} />
               <Route path='liked' element={<Liked />} />
               <Route path='followee' element={<Followee />}>
-                <Route index element={<Navigate to='followers' replace/>}/>
+                <Route index element={<Navigate to='followers' replace />} />
+                <Route path='followers' element={<Followers />} />
+                <Route path='following' element={<Following />} />
+              </Route>
+            </Route>
+            <Route path='users/:uid' element={<User />}>
+              <Route index element={<Posts />} />
+              <Route path='comments' element={<Comments />} />
+              <Route path='follows' element={<Followee />}>
+                <Route index element={<Navigate to='followers' replace />} />
                 <Route path='followers' element={<Followers />} />
                 <Route path='following' element={<Following />} />
               </Route>
