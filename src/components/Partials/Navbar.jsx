@@ -45,6 +45,12 @@ export const Searchbar = ({ isFullLength }) => {
   const clearSearchText = () => {
     setSearchText('');
   }
+
+  const clearSearchResult=()=>{
+    console.log('clearing search results');
+    clearSearchText();
+    setSearchResult([]);
+  }
   const onInputChange = (e) => {
     setSearchText(e.target.value);
   }
@@ -80,7 +86,7 @@ export const Searchbar = ({ isFullLength }) => {
       {
         searchResult.length > 0 && (searchResult.map((user) => {
           return (
-            <Link to={`/users/${user.uid}`} className='flex flex-row justify-start items-center gap-x-6 cursor-pointer mb-2 py-3 border-b-emphasis border-b-2 px-2 hover:text-text-secondary' key={user.uid}>
+            <Link to={`/users/${user.uid}`} onClick={clearSearchResult} className='flex flex-row justify-start items-center gap-x-6 cursor-pointer mb-2 py-3 border-b-emphasis border-b-2 px-2 hover:text-text-secondary' key={user.uid}>
               {
                 user.profile_picture ? (
                   <img src={user?.profile_picture} className='smallPfp' alt="pfp" />
@@ -115,26 +121,15 @@ export const AlternativeSearchBar = () => {
 export default function Navbar() {
   const { userInfo } = useSelector((state) => state.user)
   const profile_picture = userInfo?.profile_picture || null;
-  // const [isSticky,setIsSticky]=useState(false);
-
-  //   useEffect(()=>{
-  //   const scrollHandler=()=>{
-  //     if(window.scrollY>20){
-  //        setIsSticky(true);
-  //     }else{
-  //        setIsSticky(false);
-  //     }
-  //   }
-  //   window.addEventListener('scroll',scrollHandler);
-  //   return ()=> window.removeEventListener('scroll',scrollHandler);
-  // },[])
+  
   return (
     <nav className={`fixed w-full z-50 top-0 flex justify-between items-center bg-secondary text-text px-6 py-4 shadow-lg transition-all duration-200`}>
       <Link to='/' className="text-2xl font-bold tracking-wide">
         DHARANAS
       </Link>
+      
       <Searchbar isFullLength={isFullLength} />
-      {/* <AlternativeSearchBar/> */}
+
       <div className="flex items-center space-x-4">
         <p className="text-lg font-medium hover:text-gray-400 transition">
           {userInfo?.username}
