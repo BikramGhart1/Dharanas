@@ -86,7 +86,7 @@ export const Searchbar = ({ isFullLength }) => {
       {
         searchResult.length > 0 && (searchResult.map((user) => {
           return (
-            <Link to={`/users/${user.uid}`} onClick={clearSearchResult} className='flex flex-row justify-start items-center gap-x-6 cursor-pointer mb-2 py-3 border-b-emphasis border-b-2 px-2 hover:text-text-secondary' key={user.uid}>
+            <Link to={`/users/${user.uid}`} onClick={clearSearchResult} className='flex flex-row justify-start items-center gap-x-6 cursor-pointer mb-2 py-3 border-b-emphasis border-b rounded-lg px-2 hover:bg-background-secondary' key={user.uid}>
               {
                 user.profile_picture ? (
                   <img src={user?.profile_picture} className='smallPfp' alt="pfp" />
@@ -127,7 +127,7 @@ export default function Navbar() {
       <Link to='/' className="text-2xl font-bold tracking-wide">
         DHARANAS
       </Link>
-      
+
       <Searchbar isFullLength={isFullLength} />
 
       <div className="flex items-center space-x-4">

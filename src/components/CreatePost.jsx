@@ -37,7 +37,7 @@ export default function CreatePost() {
                             <span className="text-lg font-medium">Upload or Drag & Drop to Upload Image</span>
                             <input type="file" name="imagePost" id="imagepost" className="hidden" accept='image/*' />
                         </label>                    </div>
-                    <button type="submit" className='bg-primary w-max px-4 py-1 font-semibold rounded-lg m-auto hover:bg-emphasis'>Submit</button>
+                    <button type="submit" className='buttonWithPrimaryBG w-max px-4 py-1 font-semibold rounded-lg m-auto'>Submit</button>
                 </form>
             </div>
         </main>

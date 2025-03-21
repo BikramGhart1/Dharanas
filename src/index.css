@@ -80,3 +80,7 @@
 .smallPfp{
   @apply w-12 h-12 object-cover overflow-hidden rounded-full border-2 border-gray-500 hover:scale-105 transition duration-300
 }
+
+.buttonWithPrimaryBG{
+  @apply bg-primary hover:bg-emphasis active:bg-opacity-70 transition-all duration-0 ease-out
+}

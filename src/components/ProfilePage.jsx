@@ -92,7 +92,7 @@ const ProfilePage = () => {
                                 <div className='flex flex-row justify-between'>
                                     <input type='text' {...register("username")} name='username' autoFocus className='border-b border-solid border-border bg-transparent rounded-lg mb-2 text-text-secondary opacity-70 focus:ring-2 focus:ring-primary ' />
                                     {errors.username && <p className='bg-red-400 px-3 py-1'>{errors.username.message}</p>}
-                                    <button type="submit" className='bg-primary px-4 rounded-lg font-semibold'>Save</button>
+                                    <button type="submit" className='buttonWithPrimaryBG px-4 rounded-lg font-semibold'>Save</button>
                                 </div>
                                 <div className='w-full'>
                                     <label htmlFor="bio">Edit Bio</label>
@@ -107,7 +107,7 @@ const ProfilePage = () => {
                                 <div className='flex flex-row justify-start gap-x-6'>
 
                                     <p className='font-semibold text-lg'>{userInfo?.username || 'Guest'}</p>
-                                    <button className='bg-primary p-1 px-4 rounded-md' onClick={() => { setEditMode(!editMode) }}>Edit</button>
+                                    <button className='buttonWithPrimaryBG p-1 px-4 rounded-md' onClick={() => { setEditMode(!editMode) }}>Edit</button>
                                 </div>
                                 <div>
                                     <p>{userInfo?.bio || 'not available'}</p>
@@ -132,7 +132,7 @@ const ProfilePage = () => {
 
                         <p className='text-sm'>Change your profile picture</p>
                         <input type="file" ref={pfpRef} accept='image/*' onChange={pfpHandler} name="pfp" id="pfp" className='cursor-pointer text-text' />
-                        <button type="submit" className='bg-primary px-2 py-1 rounded-md font-semibold'>Submit Picture</button>
+                        <button type="submit" className='buttonWithPrimaryBG px-2 py-1 rounded-md font-semibold'>Submit Picture</button>
                     </form>
                 }
             </div>

@@ -6,28 +6,28 @@ const initialState = {
     token: localStorage.getItem('token') || null,
     status: 'idle',
     error: null,
-    social:{
-        following:{
-            id:[],
-            pagination:{
-                page:1,
-                limit:10,
-                total:0,
-                hasMore:true
+    social: {
+        following: {
+            id: [],
+            pagination: {
+                page: 1,
+                limit: 10,
+                total: 0,
+                hasMore: true
             },
-            status:'idle',
-            error:null,
+            status: 'idle',
+            error: null,
         },
-        followers:{
-            id:[],
-            pagination:{
-                page:1,
-                limit:10,
-                total:0,
-                hasMore:true
+        followers: {
+            id: [],
+            pagination: {
+                page: 1,
+                limit: 10,
+                total: 0,
+                hasMore: true
             },
-            status:'idle',
-            error:null,
+            status: 'idle',
+            error: null,
         },
     }
 }
@@ -122,8 +122,13 @@ const userSlice = createSlice({
             localStorage.setItem('token', action.payload);
         },
         logout: (state, action) => {
+
             localStorage.removeItem('token');
-            return initialState;
+            state.userInfo = null;
+            state.token = null;
+            state.status = null;
+            state.error = null;
+            state.social = null;
         },
     },
     extraReducers: (builder) => {

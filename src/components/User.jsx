@@ -67,7 +67,7 @@ export default function User() {
                             <p>{userDetails.bio}</p>
 
                         </div>
-                        <button className='bg-primary p-1 px-4 rounded-md' >Follow</button>
+                        <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' >Follow</button>
                     </div>
 
                     <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={() => { navigate('follows') }}>

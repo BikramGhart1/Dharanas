@@ -90,7 +90,7 @@ export default function HomePage() {
             <div className='flex flex-row justify-between items-center'>
               <p className='opacity-60'>Feel like expressing some dharanas?</p>
               <p className='h-1 w-1 rounded-2xl bg-primary flex-1 mx-4'></p>
-              <Link to='/createPost' className='border-2 border-solid border-primary px-3 py-1 rounded-full'>Create Post</Link>
+              <Link to='/createPost' className='border-2 border-solid border-primary hover:border-emphasis px-3 py-1 rounded-full'>Create Post</Link>
             </div>
           </div>
           <div>
@@ -109,7 +109,7 @@ export default function HomePage() {
 
                   </div>
 
-                  <button className='bg-primary px-4 py-1 rounded-lg'>Like</button>
+                  <button className='bg-primary hover:bg-emphasis active:bg-opacity-45 px-4 py-1 rounded-lg'>Like</button>
                   <div className='flex flex-row justify-start gap-x-2 opacity-40'>
                     <button>{post.likes} Likes</button>
                     <button onClick={() => { setShowComments(!showComments) }}>{post.comments.length} Comments</button>
