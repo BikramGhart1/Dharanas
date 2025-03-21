@@ -53,6 +53,21 @@ export default function User() {
         fetchUserByUID(uid);
         console.log("User details: ", userDetails);
     }, [uid, token])
+
+    const followUser = async () => {
+        const result = await axios.post(`http://localhost:3000/user/follow/${uid}`, 
+            {
+                uid: uid,
+            },
+            {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type":'Application/json'
+            },
+        });
+        const data = result.data;
+        console.log('follow user data: ', data);
+    }
     return (
         <section className='mainContent'>
             <div className='relative flex flex-row md:justify-around justify-between pt-3 pb-8'>
@@ -67,7 +82,7 @@ export default function User() {
                             <p>{userDetails.bio}</p>
 
                         </div>
-                        <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' >Follow</button>
+                        <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' onClick={followUser} >Follow</button>
                     </div>
 
                     <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={() => { navigate('follows') }}>

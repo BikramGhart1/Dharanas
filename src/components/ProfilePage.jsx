@@ -16,9 +16,9 @@ const ProfilePage = () => {
     const [pfpfile, setPfpFile] = useState(null);
     const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     // const [openFollowee,setOpenFollowee]=useState(false);
-    
+
 
     const { register, handleSubmit, formState: { errors }, watch, reset } = useForm({
         resolver: zodResolver(profileUpdateSchema),
@@ -74,13 +74,13 @@ const ProfilePage = () => {
         dispatch(changepfp(formData));
         setEditMode(!editMode)
     }, [pfpfile, userInfo, dispatch])
-    
+
     // const toggleOpenFollowee=()=>{
     //     setOpenFollowee((prev)=>!prev);
     // }
 
     return (
-        <main className='mainContent relative'>
+        <main className='mainContent'>
             <div className='flex flex-row md:justify-around justify-between pt-3 '>
                 <div className='mr-8'>
                     <img src={userPfp ? userPfp : '/images/guest.png'} alt="pfp" onClick={() => { pfpRef.current.click() }} className='w-20 h-20 md:w-32 md:h-32 cursor-pointer object-cover rounded-full aspect-square border-2 border-border' />
@@ -116,13 +116,13 @@ const ProfilePage = () => {
                             </div>
                         )
                     }
-                    <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={()=>{navigate('followee')}}>
+                    <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={() => { navigate('followee') }}>
                         <p className='followee'><em className='not-italic font-semibold pr-1'>109</em> Followers</p>
                         <p className='followee'><em className='not-italic font-semibold pr-1'>145</em> Following</p>
                     </div>
                 </div>
             </div>
-            
+
             <div className='flex flex-col items-center pt-5'>
 
                 {

@@ -15,7 +15,7 @@ export default function Sidebar() {
   }
 
   const ConfirmLogout = () => {
-    return <div className='w-screen bg-opacity-50  fixed top-0 right-0 left-0 h-screen flex justify-center items-center'>
+    return <div className='w-screen bg-opacity-50 z-[1000] fixed top-0 right-0 left-0 h-screen flex justify-center items-center'>
       <div className='bg-background-secondary p-32 rounded-2xl bg-opacity-95 flex flex-col gap-y-4'>
         <p>Are you sure you want to Logout?</p>
         <div className='flex flex-row justify-start gap-x-10'>
@@ -42,7 +42,7 @@ export default function Sidebar() {
       </div>
       <div className='flex flex-col items-start border-b border-solid border-border my-4 py-3'>
         <h3 className='font-semibold pb-2 text-red-400'>Danger Zone</h3>
-        <button onClick={() => { setLogoutWindow(!logOutWindow) }} className=''>Logout</button>
+        <button onClick={() => { setLogoutWindow(true) }} className=''>Logout</button>
         {
           logOutWindow &&
           <ConfirmLogout />
