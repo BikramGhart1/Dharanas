@@ -26,10 +26,14 @@
 
 5. I will create a page that allows user to upload posts like text, images and videos
 
-# Things to consider
+# Things to consider                                                                             
 1. Form and user data validations
 2. Responsiveness
 3. Dynamic content changes
+4. optimization:
+   > Memoizition
+   > Pagination
+
 
 # today's log
 # 25 Feb
@@ -47,7 +51,7 @@
 # March 18
 1. Using nested routes implemented followings and followers components
 
-* Things left to do
+* Things left to do (cleared)
 2. Still issues in route indexings need to fix them
 3. apply backend with the searching users
 4. toggle the close and open followee window

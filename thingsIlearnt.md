@@ -92,6 +92,16 @@ Use express for this
 7. put that middleware before the controller middleware to make protected routes
 
 # issues
+
+* solved
 1. when user search their own account pfp is not appeating Navbar: 29 line
 
 2. implement follow logics
+
+* Mar 22
+1. Follow and unfollow button setup manage the state of followed or unfollowed
+check if the id we just clicked followed already exists in our following list and then set buttons accordingly
+2. fetch the followers and following id in redux
+3. display them dynamically 
+4. apply pagination 
+5. also optimization

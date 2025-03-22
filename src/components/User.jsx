@@ -8,6 +8,7 @@ export default function User() {
     const navigate = useNavigate();
     const { uid } = useParams();
     const { userInfo } = useSelector((state) => state.user)
+    const [isFollowing, setIsFollowing] = useState(false);
     const [userDetails, setUserDetails] = useState({
         username: 'guest',
         bio: '',
@@ -55,19 +56,44 @@ export default function User() {
     }, [uid, token])
 
     const followUser = async () => {
-        const result = await axios.post(`http://localhost:3000/user/follow/${uid}`, 
-            {
-                uid: uid,
-            },
-            {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type":'Application/json'
-            },
-        });
-        const data = result.data;
-        console.log('follow user data: ', data);
+        try{
+            setIsFollowing(true);
+            const result = await axios.post(`http://localhost:3000/user/follow/${uid}`,
+                {
+                    uid: uid,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": 'Application/json'
+                    },
+                });
+            const data = result.data;
+            console.log('follow user data: ', data);
+            console.log(isFollowing);
+        }catch(err){
+            console.error('Error while following:',err);
+            setIsFollowing(false);
+        }
+        
     }
+const unFollowUser=async()=>{
+    try{
+      const result=await axios.delete(`http://localhost:3000/user/follow/${uid}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+      console.log(result.data);
+    }catch(err){
+        if(err.response){
+            console.error('Error while unfollowing: ',err.response.message);
+        }else{
+            console.error('Error while unfollowing: ',err);
+        }
+    }
+}
     return (
         <section className='mainContent'>
             <div className='relative flex flex-row md:justify-around justify-between pt-3 pb-8'>
@@ -82,7 +108,15 @@ export default function User() {
                             <p>{userDetails.bio}</p>
 
                         </div>
-                        <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' onClick={followUser} >Follow</button>
+                        {
+                            isFollowing?(
+
+                                <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' onClick={unFollowUser} >Unfollow</button>
+                            ):(
+
+                                <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' onClick={followUser} >Follow</button>
+                            )
+                        }
                     </div>
 
                     <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={() => { navigate('follows') }}>
