@@ -79,7 +79,7 @@ export default function User() {
     }
 const unFollowUser=async()=>{
     try{
-      const result=await axios.delete(`http://localhost:3000/user/follow/${uid}`,
+      const result=await axios.delete(`http://localhost:3000/user/unfollow/${uid}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -95,7 +95,7 @@ const unFollowUser=async()=>{
     }
 }
     return (
-        <section className='mainContent'>
+        <section className='mainContent max-h-screen'>
             <div className='relative flex flex-row md:justify-around justify-between pt-3 pb-8'>
                 <div className='mr-8'>
                     <img src={userDetails.profile_picture} alt="pfp" className='w-20 h-20 md:w-32 md:h-32 cursor-pointer object-cover rounded-full aspect-square border-2 border-border' />

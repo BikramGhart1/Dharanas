@@ -48,6 +48,9 @@
 3. user can upload the profile picture image
 > Next I'll implement how image's url can be sent to database and design overall user profile page
 
+
+# issues
+
 # March 18
 1. Using nested routes implemented followings and followers components
 
@@ -55,3 +58,28 @@
 2. Still issues in route indexings need to fix them
 3. apply backend with the searching users
 4. toggle the close and open followee window
+
+* solved
+1. when user search their own account pfp is not appeating Navbar: 29 line
+
+2. implement follow logics
+
+* Mar 22
+1. Follow and unfollow button setup manage the state of followed or unfollowed
+check if the id we just clicked followed already exists in our following list and then set buttons accordingly
+2. fetch the followers and following id in redux
+3. display them dynamically 
+4. apply pagination 
+5. also optimization
+
+6. (Priority high) 
+what i current can do:
+   1. I can follow and unfollow a user
+   2. I can fetch followers and followings of current user
+What needs to be done:
+   1. State management for fetched followers and followings
+   2. state management for other user's followers and followings
+   3. State management for follow and unfollow button based on followed or unfollowed in redux
+   4. This is getting complex and more complex to keep track of 
+   I' ll try fixing routes for user and profile page components with followee component
+   In followee component try reducing code duplicate : 

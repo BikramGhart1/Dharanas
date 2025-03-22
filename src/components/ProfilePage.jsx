@@ -80,7 +80,7 @@ const ProfilePage = () => {
     // }
 
     return (
-        <main className='mainContent'>
+        <main className='mainContent max-h-screen'>
             <div className='flex flex-row md:justify-around justify-between pt-3 '>
                 <div className='mr-8'>
                     <img src={userPfp ? userPfp : '/images/guest.png'} alt="pfp" onClick={() => { pfpRef.current.click() }} className='w-20 h-20 md:w-32 md:h-32 cursor-pointer object-cover rounded-full aspect-square border-2 border-border' />

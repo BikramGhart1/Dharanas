@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Searchbar } from "./Partials/Navbar"
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 let isFullLength = true;
 
 export const Followers = () => {
-    const [dummyUsers, setDummyUsers] = useState([
-        {username:" Test"}
+
+    const [userFollowers, setUserFollowers] = useState([
+        { username: " Test" }
     ]);
+    const { uid } = useParams();
+    const userId=uid || useSelector((state)=>state.user.userInfo.uid);
+
     const fetchFollowers = async () => {
         const token = localStorage.getItem('token')
-        const result = await axios.get(`http://localhost:3000/user/showFollowers`,
+        const result = await axios.get(`http://localhost:3000/user/showFollowers/${userId}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -19,9 +24,8 @@ export const Followers = () => {
             })
         console.log(result.data);
         const data = result.data.data;
-        setDummyUsers(data);
-        console.log("Dummy users: ",dummyUsers)
-        // setDummyUsers((prev) => ({ ...prev, ...data }))
+        setUserFollowers(data);
+        console.log("Dummy users: ", userFollowers)
     }
     useEffect(() => {
         fetchFollowers();
@@ -31,121 +35,74 @@ export const Followers = () => {
         <div className="w-full flex flex-col overflow-y-auto gap-y-4">
             {
 
-              dummyUsers.length>0 &&  dummyUsers.map((user, index) => {
+                userFollowers.length > 0 && userFollowers.map((user, index) => {
                     return (
                         <div key={index} className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
                             <div className="flex flex-row justify-start items-center gap-x-5">
-                                <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
+                                {
+                                    user.profile_picture ? (
+                                        <img src={user?.profile_picture} alt='pfp' />
+                                    ) : (
+                                        <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
+                                    )
+                                }
                                 <p className="text-primary">{user.username}</p>
                             </div>
                             <button>...</button>
                         </div>)
                 })
             }
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p className="text-primary">Namu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Krishna</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Blas </p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
+
         </div>
     )
 }
 export const Following = () => {
+    const [userFollowings, setUserFollowings] = useState([
+        {
+            username: 'test'
+        }
+    ]);
+
+    const { uid } = useParams();
+    const userId=uid || useSelector((state)=>state.user.userInfo.uid);
+
+    const fetchFollowings = async () => {
+        const token = localStorage.getItem('token')
+
+        const result = await axios.get(`http://localhost:3000/user/showFollowings/${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        console.log('following: ', result.data);
+        const data = result.data.data;
+        setUserFollowings(data);
+    }
+    useEffect(() => {
+        fetchFollowings();
+    }, [])
     return (
         <div className="w-full flex flex-col overflow-y-auto gap-y-4">
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p className="text-primary">Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
-            <div className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
-                <div className="flex flex-row justify-start items-center gap-x-5">
-                    <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
-                    <p>Ramu</p>
-                </div>
-                <button>...</button>
-            </div>
+            {
+                userFollowings.length > 0 && userFollowings.map((user, index) => {
+                    return (
+                        <div key={index} className="bg-secondary px-4 py-2 rounded-xl mr-2 flex flex-row justify-between items-center">
+                            <div className="flex flex-row justify-start items-center gap-x-5">
+                                {
+                                    user.profile_picture ? (
+                                        <img src={user?.profile_picture} alt='pfp' />
+                                    ) : (
+                                        <img className="w-1/5 aspect-square rounded-full" src="/images/guest.png" alt="" />
+                                    )
+                                }
+                                <p className="text-primary">{user.username}</p>
+                            </div>
+                            <button>...</button>
+                        </div>)
+                })
+            }
+
         </div>
     )
 }

@@ -31,6 +31,52 @@ const initialState = {
         },
     }
 }
+
+export const fetchFollowers=createAsyncThunk(
+    'user/fetchFollowers',
+    async(_,{getState,rejectWithValue})=>{
+
+    }
+)
+
+export const followUser=createAsyncThunk(
+    "user/follow",
+    async(uid,{getState,rejectWithValue})=>{
+        try{
+          const result=await axios.post(`http://localhost:3000/user/follow/${uid}`,
+                {
+                    uid: uid,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": 'Application/json'
+                    },
+                })
+                console.log('in async thunk result of fetching: ',result.data);
+            return result.data.data;
+        }catch(err){
+            return rejectWithValue(err.message);
+        }
+    }
+)
+export const unFollowUser=createAsyncThunk(
+    "user/unfollow",
+    async(_,{getState,rejectWithValue})=>{
+        try{
+            const result=await axios.delete(`http://localhost:3000/user/follow/${uid}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                console.log('unfollow in asyn thunk :',result.data);
+                return 
+        }catch(err){
+            return rejectWithValue(err.message);
+        }
+    }
+)
 export const fetchUser = createAsyncThunk(
     "user/fetchUser",
     async (_, { getState, rejectWithValue, dispatch }) => {
@@ -167,6 +213,7 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
+          
     }
 })
 
