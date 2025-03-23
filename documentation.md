@@ -80,6 +80,20 @@ What needs to be done:
    1. State management for fetched followers and followings
    2. state management for other user's followers and followings
    3. State management for follow and unfollow button based on followed or unfollowed in redux
+
+   * cleared
    4. This is getting complex and more complex to keep track of 
    I' ll try fixing routes for user and profile page components with followee component
    In followee component try reducing code duplicate : 
+
+* Mar 23
+1. fetch follow and following in redux for user accordingly dispatch in followee component
+2. follow and unfollow button state dynamically
+
+3. Got even more complicated,
+I was thinking of fetch the uid of followers and followings for current account holder in 
+redux social state but only storing uid is not advantageous cause i need to fetch those user info
+using uid again anyway
+
+so reconsidering this ig i will fetch the user objects themselves instead of uid and use pagination to
+dynamically fetch them or mayb just use local state instead of using react.

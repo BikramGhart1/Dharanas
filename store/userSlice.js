@@ -8,7 +8,7 @@ const initialState = {
     error: null,
     social: {
         following: {
-            id: [],
+            users: [],
             pagination: {
                 page: 1,
                 limit: 10,
@@ -19,7 +19,7 @@ const initialState = {
             error: null,
         },
         followers: {
-            id: [],
+            users: [],
             pagination: {
                 page: 1,
                 limit: 10,
@@ -32,18 +32,45 @@ const initialState = {
     }
 }
 
-export const fetchFollowers=createAsyncThunk(
+export const fetchFollowers = createAsyncThunk(
     'user/fetchFollowers',
-    async(_,{getState,rejectWithValue})=>{
-
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const followersRes = await axios.get('http://localhost:3000/user/showFollowers',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+            return followersRes.data.data;
+        } catch (err) {
+            return rejectWithValue(err);
+        }
     }
 )
 
-export const followUser=createAsyncThunk(
+export const fetchFollowings = createAsyncThunk(
+    'user/fetchFollowings',
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const followingsRes = await axios.get('http://localhost:3000/user/showFollowings',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+            return followingsRes.data.data;
+        } catch (err) {
+            return rejectWithValue(err);
+        }
+    }
+)
+
+export const followUser = createAsyncThunk(
     "user/follow",
-    async(uid,{getState,rejectWithValue})=>{
-        try{
-          const result=await axios.post(`http://localhost:3000/user/follow/${uid}`,
+    async (uid, { getState, rejectWithValue }) => {
+        try {
+            const result = await axios.post(`http://localhost:3000/user/follow/${uid}`,
                 {
                     uid: uid,
                 },
@@ -53,26 +80,26 @@ export const followUser=createAsyncThunk(
                         "Content-Type": 'Application/json'
                     },
                 })
-                console.log('in async thunk result of fetching: ',result.data);
+            console.log('in async thunk result of fetching: ', result.data);
             return result.data.data;
-        }catch(err){
+        } catch (err) {
             return rejectWithValue(err.message);
         }
     }
 )
-export const unFollowUser=createAsyncThunk(
+export const unFollowUser = createAsyncThunk(
     "user/unfollow",
-    async(_,{getState,rejectWithValue})=>{
-        try{
-            const result=await axios.delete(`http://localhost:3000/user/follow/${uid}`,
+    async (_, { getState, rejectWithValue }) => {
+        try {
+            const result = await axios.delete(`http://localhost:3000/user/follow/${uid}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
-                console.log('unfollow in asyn thunk :',result.data);
-                return 
-        }catch(err){
+            console.log('unfollow in asyn thunk :', result.data);
+            return
+        } catch (err) {
             return rejectWithValue(err.message);
         }
     }
@@ -213,7 +240,29 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
-          
+            .addCase(fetchFollowers.pending,(state,action)=>{
+                state.social.followers.status='loading';
+            })
+            .addCase(fetchFollowers.fulfilled,(state,action)=>{
+                state.social.followers.status='successful';
+                state.social.followers.users=action.payload;
+            })
+            .addCase(fetchFollowers.rejected,(state,action)=>{
+                state.social.followers.status='failed';
+                state.social.followers.error=action.payload;
+            })
+            .addCase(fetchFollowings.pending,(state,action)=>{
+                state.social.following.status='loading';
+            })
+            .addCase(fetchFollowings.fulfilled,(state,action)=>{
+                state.social.following.status='successful';
+                state.social.following.users=action.payload;
+            })
+            .addCase(fetchFollowings.rejected,(state,action)=>{
+                state.social.following.status='failed';
+                state.social.following.error=action.payload;
+            })
+
     }
 })
 
