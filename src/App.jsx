@@ -11,10 +11,10 @@ import Saved from './components/profileNavs/Saved'
 import Posts from './components/profileNavs/Posts'
 import Comments from './components/profileNavs/Comments'
 import Liked from './components/profileNavs/Liked'
-import SubProfileWrapper from './components/profileNavs/SubProfileWrapper'
 import CreatePost from './components/CreatePost'
-import Followee, { Followers, Following } from './components/Followee'
 import User from './components/User'
+import FollowList from './components/FollowList'
+import Followee from './components/Followee'
 
 function App() {
 
@@ -33,8 +33,8 @@ function App() {
               <Route path='liked' element={<Liked />} />
               <Route path='followee' element={<Followee />}>
                 <Route index element={<Navigate to='followers' replace />} />
-                <Route path='followers' element={<Followers />} />
-                <Route path='following' element={<Following />} />
+                <Route path='followers' element={<FollowList type='followers'/>} />
+                <Route path='following' element={<FollowList type='followings' />} />
               </Route>
             </Route>
             <Route path='users/:uid' element={<User />}>
@@ -42,8 +42,8 @@ function App() {
               <Route path='comments' element={<Comments />} />
               <Route path='follows' element={<Followee />}>
                 <Route index element={<Navigate to='followers' replace />} />
-                <Route path='followers' element={<Followers />} />
-                <Route path='following' element={<Following />} />
+                <Route path='followers' element={<FollowList type='followers'/>} />
+                <Route path='following' element={<FollowList type='followings' />} />
               </Route>
             </Route>
           </Route>
