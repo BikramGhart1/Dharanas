@@ -36,12 +36,15 @@ export const fetchFollowers = createAsyncThunk(
     'user/fetchFollowers',
     async (_, { getState, rejectWithValue }) => {
         try {
-            const followersRes = await axios.get('http://localhost:3000/user/showFollowers',
+            const {limit,page}=getState().user.social.followers.pagination;
+            const token=getState().user.token;
+            const followersRes = await axios.get(`http://localhost:3000/user/showFollowers?page=${page}&limit=${limit}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     });
+            console.log('followers data in async thunk: ',followersRes.data);
             return followersRes.data.data;
         } catch (err) {
             return rejectWithValue(err);
@@ -53,12 +56,14 @@ export const fetchFollowings = createAsyncThunk(
     'user/fetchFollowings',
     async (_, { getState, rejectWithValue }) => {
         try {
+            const token=getState().user.token;
             const followingsRes = await axios.get('http://localhost:3000/user/showFollowings',
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     });
+            console.log('followings data in async thunk: ',followingsRes.data);
             return followingsRes.data.data;
         } catch (err) {
             return rejectWithValue(err);
@@ -203,6 +208,12 @@ const userSlice = createSlice({
             state.error = null;
             state.social = null;
         },
+        incrementFollowersPage:(state,action)=>{
+            state.social.followers.pagination.page+=1;
+        },
+        incrementFollowingsPage:(state,action)=>{
+            state.social.following.pagination.page+=1;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -218,6 +229,7 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
+
             .addCase(changepfp.pending, (state, action) => {
                 state.status = 'loading';
             })
@@ -229,6 +241,7 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
+
             .addCase(updateProfile.pending, (state, action) => {
                 state.status = 'loading';
             })
@@ -240,6 +253,8 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
+
+            //Fetch followers
             .addCase(fetchFollowers.pending,(state,action)=>{
                 state.social.followers.status='loading';
             })
@@ -251,6 +266,8 @@ const userSlice = createSlice({
                 state.social.followers.status='failed';
                 state.social.followers.error=action.payload;
             })
+
+            //fetch followings
             .addCase(fetchFollowings.pending,(state,action)=>{
                 state.social.following.status='loading';
             })
@@ -266,5 +283,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { loginSuccess, logout } = userSlice.actions;
+export const { loginSuccess, logout, incrementFollowersPage, incrementFollowingsPage } = userSlice.actions;
 export default userSlice.reducer;

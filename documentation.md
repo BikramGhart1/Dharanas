@@ -97,3 +97,9 @@ using uid again anyway
 
 so reconsidering this ig i will fetch the user objects themselves instead of uid and use pagination to
 dynamically fetch them or mayb just use local state instead of using react.
+
+* mar 24 
+1. aah more bugs 
+2. first fix the state for followers and followings 
+3. then pagination
+4. then follow and unfollow button

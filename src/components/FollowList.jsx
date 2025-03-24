@@ -1,12 +1,19 @@
-import { Link } from 'react-router-dom';
-import React from 'react'
+import { Link, useParams } from 'react-router-dom';
+import React, { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
-export default function FollowList({type}) {
-    const{followers,followings}=useOutletContext();
-    const userList=type==='followers'?followers:followings;
-  return (
-    <div className="w-full flex flex-col overflow-y-auto gap-y-4">
+export default function FollowList({ type }) {
+    const { followers, followings, incrementPage, hasMore, getFollowListType } = useOutletContext();
+    const { uid } = useParams();
+    const followersRedux = useSelector((state) => state.user.social.followers.users);
+    const followingsRedux = useSelector((state) => state.user.social.following.users);
+    const userList = uid ? (type === 'followers' ?followersRedux : followingsRedux) :(type === 'followers' ? followers : followings);
+    useState(() => {
+        getFollowListType(type);
+    }, [type])
+    return (
+        <div className="w-full flex flex-col overflow-y-auto gap-y-4">
             {
                 userList.length > 0 && userList.map((user, index) => {
                     return (
@@ -24,8 +31,10 @@ export default function FollowList({type}) {
                             <button>...</button>
                         </Link>)
                 })
+            }{
+                hasMore &&
+                <button className='text-text-secondary' onClick={incrementPage}>Load More</button>
             }
-
         </div>
-  )
+    )
 }
