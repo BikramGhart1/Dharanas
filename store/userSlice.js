@@ -45,7 +45,7 @@ export const fetchFollowers = createAsyncThunk(
                         },
                     });
             console.log('followers data in async thunk: ',followersRes.data);
-            return followersRes.data.data;
+            return followersRes.data;
         } catch (err) {
             return rejectWithValue(err);
         }
@@ -64,7 +64,7 @@ export const fetchFollowings = createAsyncThunk(
                         },
                     });
             console.log('followings data in async thunk: ',followingsRes.data);
-            return followingsRes.data.data;
+            return followingsRes.data;
         } catch (err) {
             return rejectWithValue(err);
         }
@@ -260,7 +260,8 @@ const userSlice = createSlice({
             })
             .addCase(fetchFollowers.fulfilled,(state,action)=>{
                 state.social.followers.status='successful';
-                state.social.followers.users=action.payload;
+                state.social.followers.users=action.payload.data;
+                state.social.followers.pagination.total=action.payload.total_followers;
             })
             .addCase(fetchFollowers.rejected,(state,action)=>{
                 state.social.followers.status='failed';
@@ -273,7 +274,8 @@ const userSlice = createSlice({
             })
             .addCase(fetchFollowings.fulfilled,(state,action)=>{
                 state.social.following.status='successful';
-                state.social.following.users=action.payload;
+                state.social.following.users=action.payload.data;
+                state.social.following.pagination.total=action.payload.total_followings;
             })
             .addCase(fetchFollowings.rejected,(state,action)=>{
                 state.social.following.status='failed';

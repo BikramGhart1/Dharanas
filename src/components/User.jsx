@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import SubProfileWrapper from './profileNavs/SubProfileWrapper';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { FollowersContext, useFollowers } from '../contexts/FollowersContext';
 
 export default function User() {
     const navigate = useNavigate();
@@ -16,12 +17,18 @@ export default function User() {
 
     })
     const token = useSelector((state) => state.user.token);
+    const {followers,followings, fetchData}=useFollowers();
+    console.log('followers context: ',followers);
+    console.log('followings context: ',followings);
 
     const userId = userInfo?.uid;
 
     if (userId === uid) {
         navigate('/profile');
     }
+    useEffect(()=>{
+        fetchData();
+    },[uid])
     const fetchUserByUID = async (uid) => {
         try {
             if (!token) {
@@ -120,8 +127,8 @@ const unFollowUser=async()=>{
                     </div>
 
                     <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={() => { navigate('follows') }}>
-                        <p className='followee'><em className='not-italic font-semibold pr-1'>109</em> Followers</p>
-                        <p className='followee'><em className='not-italic font-semibold pr-1'>145</em> Following</p>
+                        <p className='followee'><em className='not-italic font-semibold pr-1'>{followers.total}</em> Followers</p>
+                        <p className='followee'><em className='not-italic font-semibold pr-1'>{followings.total}</em> Following</p>
                     </div>
 
                 </div>

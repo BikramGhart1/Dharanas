@@ -15,6 +15,7 @@ import CreatePost from './components/CreatePost'
 import User from './components/User'
 import FollowList from './components/FollowList'
 import Followee from './components/Followee'
+import { FollowersProvider } from './contexts/FollowersContext'
 
 function App() {
 
@@ -26,23 +27,31 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path='/createPost' element={<CreatePost />} />
-            <Route path='/profile' element={<ProfilePage />}>
+            <Route path='/profile' element={
+              <FollowersProvider>
+                <ProfilePage />
+              </FollowersProvider>
+            }>
               <Route index element={<Posts />} />
               <Route path='saved' element={<Saved />} />
               <Route path='comments' element={<Comments />} />
               <Route path='liked' element={<Liked />} />
               <Route path='followee' element={<Followee />}>
                 <Route index element={<Navigate to='followers' replace />} />
-                <Route path='followers' element={<FollowList type='followers'/>} />
+                <Route path='followers' element={<FollowList type='followers' />} />
                 <Route path='following' element={<FollowList type='followings' />} />
               </Route>
             </Route>
-            <Route path='users/:uid' element={<User />}>
+            <Route path='users/:uid' element={
+              <FollowersProvider>
+                <User />
+              </FollowersProvider>
+            }>
               <Route index element={<Posts />} />
               <Route path='comments' element={<Comments />} />
               <Route path='follows' element={<Followee />}>
                 <Route index element={<Navigate to='followers' replace />} />
-                <Route path='followers' element={<FollowList type='followers'/>} />
+                <Route path='followers' element={<FollowList type='followers' />} />
                 <Route path='following' element={<FollowList type='followings' />} />
               </Route>
             </Route>

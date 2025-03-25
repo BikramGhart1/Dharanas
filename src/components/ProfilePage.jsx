@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { changepfp, updateProfile } from '../../store/userSlice';
+import { changepfp, fetchFollowers, fetchFollowings, updateProfile } from '../../store/userSlice';
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import SubProfileWrapper from './profileNavs/SubProfileWrapper';
 import { profileUpdateSchema } from '../formvalidations/validateform';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Followee from './Followee';
 
 
 
 const ProfilePage = () => {
     const pfpRef = useRef();
     const { userInfo } = useSelector((state) => state.user)
+    const {followers,following}=useSelector((state)=>state.user.social)
     const [pfpfile, setPfpFile] = useState(null);
     const dispatch = useDispatch();
     const [editMode, setEditMode] = useState(false);
@@ -36,6 +36,11 @@ const ProfilePage = () => {
             });
         }
     }, [userInfo, reset]);
+
+    useEffect(()=>{
+      dispatch(fetchFollowers());
+      dispatch(fetchFollowings());
+    },[])
     const userPfp = useMemo(() => userInfo?.profile_picture, [userInfo?.profile_picture]);
 
     const bioValue = watch('bio')
@@ -117,8 +122,8 @@ const ProfilePage = () => {
                         )
                     }
                     <div className='w-max flex flex-row justify-start pt-2 gap-x-4 followee' onClick={() => { navigate('followee') }}>
-                        <p className='followee'><em className='not-italic font-semibold pr-1'>109</em> Followers</p>
-                        <p className='followee'><em className='not-italic font-semibold pr-1'>145</em> Following</p>
+                        <p className='followee'><em className='not-italic font-semibold pr-1'>{followers.pagination.total}</em> Followers</p>
+                        <p className='followee'><em className='not-italic font-semibold pr-1'>{following.pagination.total}</em> Following</p>
                     </div>
                 </div>
             </div>
