@@ -42,7 +42,7 @@ export default function Login() {
       </div>
       <div className='flex flex-col'>
         <label htmlFor="password">Password</label>
-        <input type="password" {...register("password")} name="password" id="password" className='border border-border outline-none' />
+        <input autoComplete='off' type="password" {...register("password")} name="password" id="password" className='border border-border outline-none' />
         {errors.password && <p className='bg-red-500 mt-1 rounded-md w-max p-1'>{errors.password.message}</p>}
         {loginErrors && <p className='bg-red-500 mt-1 p-1'>{loginErrors.message}</p>}
       </div>

@@ -17,18 +17,18 @@ export default function User() {
 
     })
     const token = useSelector((state) => state.user.token);
-    const {followers,followings, fetchData}=useFollowers();
-    console.log('followers context: ',followers);
-    console.log('followings context: ',followings);
+    const { followers, followings, fetchData } = useFollowers();
+    console.log('followers context: ', followers);
+    console.log('followings context: ', followings);
 
     const userId = userInfo?.uid;
 
     if (userId === uid) {
         navigate('/profile');
     }
-    useEffect(()=>{
+    useEffect(() => {
         fetchData();
-    },[uid])
+    }, [uid])
     const fetchUserByUID = async (uid) => {
         try {
             if (!token) {
@@ -57,14 +57,30 @@ export default function User() {
         }
     }
 
+    const checkIfFollowing = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/user/isFollowing/${uid}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            console.log('Is Following: ', response);
+            const isFollowing = response.data.isFollowing;
+            setIsFollowing(isFollowing);
+        } catch (err) {
+            console.error('Error while checking if we following the user or not?', err);
+        }
+    }
     useEffect(() => {
         fetchUserByUID(uid);
-        console.log("User details: ", userDetails);
+        // console.log("User details: ", userDetails);
+        checkIfFollowing();
     }, [uid, token])
 
     const followUser = async () => {
-        try{
-            setIsFollowing(true);
+
+        try {
+            if (isFollowing) return;
             const result = await axios.post(`http://localhost:3000/user/follow/${uid}`,
                 {
                     uid: uid,
@@ -77,30 +93,33 @@ export default function User() {
                 });
             const data = result.data;
             console.log('follow user data: ', data);
-            console.log(isFollowing);
-        }catch(err){
-            console.error('Error while following:',err);
-            setIsFollowing(false);
+            setIsFollowing(true);
+            await fetchData()
+
+        } catch (err) {
+            console.error('Error while following:', err);
         }
-        
+
     }
-const unFollowUser=async()=>{
-    try{
-      const result=await axios.delete(`http://localhost:3000/user/unfollow/${uid}`,
+    const unFollowUser = async () => {
+        try {
+            if (!isFollowing) return;
+            const result = await axios.delete(`http://localhost:3000/user/unfollow/${uid}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
-      console.log(result.data);
-    }catch(err){
-        if(err.response){
-            console.error('Error while unfollowing: ',err.response.message);
-        }else{
-            console.error('Error while unfollowing: ',err);
+            setIsFollowing(false);
+            await fetchData();
+        } catch (err) {
+            if (err.response) {
+                console.error('Error while unfollowing: ', err.response.message);
+            } else {
+                console.error('Error while unfollowing: ', err);
+            }
         }
     }
-}
     return (
         <section className='mainContent max-h-screen'>
             <div className='relative flex flex-row md:justify-around justify-between pt-3 pb-8'>
@@ -116,10 +135,10 @@ const unFollowUser=async()=>{
 
                         </div>
                         {
-                            isFollowing?(
+                            isFollowing ? (
 
                                 <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' onClick={unFollowUser} >Unfollow</button>
-                            ):(
+                            ) : (
 
                                 <button className='p-1 px-4 h-10 rounded-md buttonWithPrimaryBG' onClick={followUser} >Follow</button>
                             )

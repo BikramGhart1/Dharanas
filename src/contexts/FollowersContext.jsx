@@ -37,6 +37,7 @@ export const FollowersProvider = ({ children }) => {
         }
     }
 
+    //get followers and following of the user when uid given, if uid isnt given fetch loginned user's followers and followings
     const fetchData = async () => {
         try {
 

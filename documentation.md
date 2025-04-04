@@ -33,3 +33,20 @@
 4. optimization:
    > Memoizition
    > Pagination
+
+## Logic for follow and unfollow button's state and text
+First of all when we visit a user's profile we get to see their details and a button which could be
+follow or unfollow accordingly, to decide if the button should be follow or unfollow,
+
+1. I could have search for the user's id in following state in redux state
+but the problem is im using pagination and what if all the users are not fetched yet
+this would cause the match id be false and show that we are not following the user
+
+2. So to avoid this problem, I decided to send a get request which takes the user's id 
+and checks if it exists in database and returns a boolean value.
+if isFollowing is true then put button's text as 'unfollow' else 'follow' 
+
+* This appraoch is not really practical or efficient cause we would be sending the request each time 
+user page is visited
+I'll be using this approach for a while 
+
