@@ -73,7 +73,12 @@ dynamically fetch them or mayb just use local state instead of using react.
 Mainly implemented context for other user's followers and following state
 
 What's left are
+
 2. Load more button implementation for pagination
+
+* not cleared
 3. has More status implementation for pagination
 4. proper style followers and following page
+
+* cleared
 5. add functionality to follow and unfollow button
