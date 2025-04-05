@@ -76,9 +76,16 @@ What's left are
 
 2. Load more button implementation for pagination
 
-* not cleared
+* cleared
 3. has More status implementation for pagination
 4. proper style followers and following page
 
 * cleared
 5. add functionality to follow and unfollow button
+
+* Apr 5
+left to test the pagination of show followers and followings in a large dataset
+
+Now similarly implement the search bar in followers and followings
+
+and then move to post management
