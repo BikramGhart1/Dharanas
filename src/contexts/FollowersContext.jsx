@@ -11,14 +11,15 @@ export const FollowersProvider = ({ children }) => {
     const [followers, setFollowers] = useState({
         data: [],
         total: 0,
+        hasMore: true,
     });
     const [followings, setFollowings] = useState({
         data: [],
         total: 0,
+        hasMore: true,
     });
     const dispatch = useDispatch();
     const { uid } = useParams();
-    const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
     const [type, setType] = useState('followers');
 
@@ -36,7 +37,7 @@ export const FollowersProvider = ({ children }) => {
                 (dispatch(incrementFollowingsPage));
         }
     }
-
+    
     //get followers and following of the user when uid given, if uid isnt given fetch loginned user's followers and followings
     const fetchData = async () => {
         try {
@@ -60,10 +61,8 @@ export const FollowersProvider = ({ children }) => {
                 ]);
                 const followersData = followersRes.data;
                 const followingsData = followingRes.data;
-                console.log('followers response: ', followersRes);
-                console.log('following response: ', followingRes);
-                setFollowers((prev) => ({ ...prev, data: followersData.data, total: followersData.total_followers || 0 }));
-                setFollowings((prev) => ({ ...prev, data: followingsData.data, total: followingsData.total_followings || 0 }));
+                setFollowers((prev) => ({ ...prev, data: followersData.data, total: followersData.total_followers || 0, hasMore:followersData.data.length==limit, }));
+                setFollowings((prev) => ({ ...prev, data: followingsData.data, total: followingsData.total_followings || 0, hasMore:followingsData.data.length==limit, }));
 
             } else {
                 dispatch(fetchFollowings());
@@ -75,7 +74,7 @@ export const FollowersProvider = ({ children }) => {
     }
 
     return (
-        <FollowersContext.Provider value={{ followers, followings, fetchData, incrementPage, hasMore, setType }}>
+        <FollowersContext.Provider value={{ followers, followings, fetchData, incrementPage, setType }}>
             {children}
         </FollowersContext.Provider>
     )

@@ -1,12 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { useSelector } from 'react-redux';
-import { FollowersContext, useFollowers } from '../contexts/FollowersContext';
+import {useFollowers } from '../contexts/FollowersContext';
 
 export default function FollowList({ type }) {
     const {getFollowListType } = useOutletContext();
-    const {followers,followings,incrementPage,hasMore}=useFollowers();
+    const {followers,followings,incrementPage}=useFollowers();
     const { uid } = useParams();
     const followersRedux = useSelector((state) => state.user.social.followers.users);
     const followingsRedux = useSelector((state) => state.user.social.following.users);
@@ -33,10 +33,13 @@ export default function FollowList({ type }) {
                             <button>...</button>
                         </Link>)
                 })):(
-                    <p className='bg-text-secondary px-4 py-2 rounded-xl mr-2 text-center'>You have 0 {type}</p>
+                    <div className='flex flex-col items-center relative overflow-hidden'>
+                        <img src="/images/myownbg2.png" className='rounded-full aspect-square object-cover w-1/3 mt-2' alt="empty" />
+                    <p className=' px-4 py-2 rounded-xl text-center absolute top-2/4 bg-black bg-opacity-60 font-bold tracking-wider text-lg'>Empty</p>
+                    </div>
                 )
             }{
-                hasMore &&
+                userList.hasMore && userList.length>0 &&
                 <button className='text-text-secondary' onClick={incrementPage}>Load More</button>
             }
         </div>
