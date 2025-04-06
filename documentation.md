@@ -50,3 +50,41 @@ if isFollowing is true then put button's text as 'unfollow' else 'follow'
 user page is visited
 I'll be using this approach for a while 
 
+## Logic for searchbar in followers and followings page
+So I already have a search bar that will search the users in whole database
+I put two conditions in that search logic
+
+1. Search only in joint results of either followers or followings 
+
+2. another condition is check if we are searching for the logged in user's or other users (not logged in users)
+
+Lets understand the architectural structure of searchbar first
+
+1. I have the searchbar component in navbar
+It has three props: 
+  1. isFullLength
+     if length of searchbar is full then we are calling it in followers or followings components else
+     in navbar itself
+
+  2. type
+     If type is being passed it is being called from followee component else
+     if it is null then we can search any users without considering type (followers or followings).
+     ```
+      if (type) {
+         // search in followers and followings
+        } else {
+         // search whole users table
+        }
+      ``` 
+
+  3. uid
+     This is sub condition inside type
+     ```
+      if (uid) {
+            endpoint = `http://localhost:3000/user/search/${type}/${uid}?query=${searchText}`;
+          } else {
+            endpoint = `http://localhost:3000/user/search/${type}?query=${searchText}`;
+          }
+     ```   
+     If uid is passed then search the user's following and followers whose uid is being passed else
+     search logged in user's
