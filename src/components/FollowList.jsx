@@ -33,10 +33,11 @@ export default function FollowList({ type }) {
                             <button>...</button>
                         </Link>)
                 })):(
-                    <div className='flex flex-col items-center relative overflow-hidden'>
-                        <img src="/images/myownbg2.png" className='rounded-full aspect-square object-cover w-1/3 mt-2' alt="empty" />
-                    <p className=' px-4 py-2 rounded-xl text-center absolute top-2/4 bg-black bg-opacity-60 font-bold tracking-wider text-lg'>Empty</p>
-                    </div>
+                    // <div className='flex flex-col items-center relative overflow-hidden'>
+                    //     <img src="/images/myownbg2.png" className='rounded-full aspect-square object-cover w-1/3 mt-2' alt="empty" />
+                    // <p className=' px-4 py-2 rounded-xl text-center absolute top-2/4 bg-black bg-opacity-60 font-bold tracking-wider text-lg'>Empty</p>
+                    // </div>
+                    <p className='m-auto pt-5 tracking-wider'>Empty</p>
                 )
             }{
                 userList.hasMore && userList.length>0 &&

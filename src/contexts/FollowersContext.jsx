@@ -28,6 +28,9 @@ export const FollowersProvider = ({ children }) => {
 
     const fetchFollowingsURL = `http://localhost:3000/user/showFollowings/${uid}?page=${page}&limit=${limit}`;
 
+    const getFollowListType = (type) => {
+        setType(type);
+    }
     const incrementPage = () => {
         if (uid) {
             setPage(prev => prev + 1);
@@ -74,7 +77,7 @@ export const FollowersProvider = ({ children }) => {
     }
 
     return (
-        <FollowersContext.Provider value={{ followers, followings, fetchData, incrementPage, setType }}>
+        <FollowersContext.Provider value={{ followers, followings, fetchData, incrementPage, getFollowListType, type }}>
             {children}
         </FollowersContext.Provider>
     )

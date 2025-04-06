@@ -8,11 +8,7 @@ let isFullLength = true;
 export default function Followee() {
     const navigate = useNavigate()
     const { uid } = useParams();
-    const {fetchData, setType}=useFollowers();
-   
-    const getFollowListType = (type) => {
-        setType(type);
-    }
+    const {fetchData, getFollowListType, type}=useFollowers();
 
     useEffect(() => {
         fetchData();
@@ -31,7 +27,7 @@ export default function Followee() {
                         <NavLink to='followers' end replace className={({ isActive }) => `text-center mb-2 font-semibold cursor-pointer ${isActive ? `border-b-4 border-primary border-solid` : ` border-none`} `}>Followers</NavLink>
                         <NavLink to='following' end replace className={({ isActive }) => `text-center mb-2 font-semibold cursor-pointer ${isActive ? `border-b-4 border-primary border-solid` : ` border-none`} `}>Following</NavLink>
                     </div>
-                    <Searchbar isFullLength={isFullLength} />
+                    <Searchbar isFullLength={isFullLength} type={type} uid={uid}/>
                 </div>
                 <Outlet context={{getFollowListType }} />
                 <button onClick={() => { navigate(-1) }} className="absolute right-5 top-1/5 -translate-y-1/2 p-1 px-2 rounded-none hover:bg-gray-400 transition-all ease-in">

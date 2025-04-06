@@ -4,9 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 
-let isFullLength = false;
 
-export const Searchbar = ({ isFullLength }) => {
+export const Searchbar = ({ isFullLength, type = null, uid = null }) => {
 
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState('');
@@ -21,15 +20,20 @@ export const Searchbar = ({ isFullLength }) => {
       }
 
       try {
-        const users = await axios.get(`http://localhost:3000/user/search?query=${searchText}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const headers = { Authorization: `Bearer ${token}` };
+        let endpoint = '';
+        if (type) {
+          if (uid) {
+            endpoint = `http://localhost:3000/user/search/${type}/${uid}?query=${searchText}`;
+          } else {
+            endpoint = `http://localhost:3000/user/search/${type}?query=${searchText}`;
           }
-        });
-        console.log('searching users: ',users.data.data);
-        setSearchResult(users.data.data);
-
-        console.log('search result state ',searchResult);
+        } else {
+          endpoint = `http://localhost:3000/user/search?query=${searchText}`;
+        }
+        const response = await axios.get(endpoint, { headers });
+        setSearchResult(response.data.data);
+        console.log('search result :', response.data.data);
       } catch (err) {
         console.error("error searching user: ", err);
         setSearchResult([])
@@ -46,7 +50,7 @@ export const Searchbar = ({ isFullLength }) => {
     setSearchText('');
   }
 
-  const clearSearchResult=()=>{
+  const clearSearchResult = () => {
     console.log('clearing search results');
     clearSearchText();
     setSearchResult([]);
@@ -121,7 +125,9 @@ export const AlternativeSearchBar = () => {
 export default function Navbar() {
   const { userInfo } = useSelector((state) => state.user)
   const profile_picture = userInfo?.profile_picture || null;
-  
+  let isFullLength = false;
+
+
   return (
     <nav className={`fixed w-full z-50 top-0 flex justify-between items-center bg-secondary text-text px-6 py-4 shadow-lg transition-all duration-200`}>
       <Link to='/' className="text-2xl font-bold tracking-wide">
