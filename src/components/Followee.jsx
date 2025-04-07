@@ -9,7 +9,7 @@ export default function Followee() {
     const navigate = useNavigate()
     const { uid } = useParams();
     const {fetchData, getFollowListType, type}=useFollowers();
-
+    console.log('type in followee comp: ',type);
     useEffect(() => {
         fetchData();
     }, [uid])

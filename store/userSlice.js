@@ -37,10 +37,16 @@ export const fetchFollowers = createAsyncThunk(
     async (_, { getState, rejectWithValue }) => {
         try {
             const { limit, page, hasMore } = getState().user.social.followers.pagination;
-            const { status } = getState().user.social.followers;
             const token = getState().user.token;
-
-            if (!hasMore) return;
+ 
+            console.log('Has more in followers:, ',hasMore);
+            if (!hasMore) {
+                // Still return a consistent shape
+                return {
+                    data: [],
+                    total_followers: getState().user.social.followers.pagination.total || 0,
+                };
+            }
             const followersRes = await axios.get(`http://localhost:3000/user/showFollowers?page=${page}&limit=${limit}`,
                 {
                     headers: {
@@ -48,8 +54,10 @@ export const fetchFollowers = createAsyncThunk(
                     },
                 });
             console.log('followers data in async thunk: ', followersRes.data);
-            return followersRes.data;
+            const data=await followersRes?.data;
+            return data;
         } catch (err) {
+            console.log('error in fetching followers: ',err);
             return rejectWithValue(err);
         }
     }
@@ -60,11 +68,16 @@ export const fetchFollowings = createAsyncThunk(
     async (_, { getState, rejectWithValue }) => {
         try {
             const { limit, page, hasMore } = getState().user.social.following.pagination;
-            const { status } = getState().user.social.following;
             const token = getState().user.token;
 
-            console.log('following for users triggered');
-            if (!hasMore) return;
+            console.log('following for users triggered and hasmore: ',hasMore);
+            if (!hasMore) {
+                // Still return a consistent shape
+                return {
+                    data: [],
+                    total_followers: getState().user.social.followers.pagination.total || 0,
+                };
+            }
             console.log('following check');
             const followingsRes = await axios.get(`http://localhost:3000/user/showFollowings?page=${page}&limit=${limit}`,
                 {
@@ -73,8 +86,10 @@ export const fetchFollowings = createAsyncThunk(
                     },
                 });
             console.log('followings data in async thunk: ', followingsRes.data);
-            return followingsRes.data;
+            const data=await followingsRes?.data;
+            return data;
         } catch (err) {
+            console.log('error in fetching followings: ',err);
             return rejectWithValue(err);
         }
     }
@@ -118,6 +133,7 @@ export const unFollowUser = createAsyncThunk(
         }
     }
 )
+
 export const fetchUser = createAsyncThunk(
     "user/fetchUser",
     async (_, { getState, rejectWithValue, dispatch }) => {
@@ -200,6 +216,7 @@ export const updateProfile = createAsyncThunk(
         }
     }
 )
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -268,11 +285,20 @@ const userSlice = createSlice({
                 state.social.followers.status = 'loading';
             })
             .addCase(fetchFollowers.fulfilled, (state, action) => {
+                const payload=action?.payload;
+                const total_followers=payload?.total_followers;
+                const data=payload?.data ?? [];
+
+                const currentLength=state.social.followers.users.length;
+                const newFetched=data.length;
+                const totalFetched=currentLength+newFetched;
+
                 state.social.followers.status = 'successful';
-                state.social.followers.users = action.payload.data;
-                state.social.followers.pagination.total = action.payload.total_followers;
+                state.social.followers.users = data;
+                state.social.followers.pagination.total = total_followers;
+
                 const limit = state.social.followers.pagination.limit;
-                state.social.followers.pagination.hasMore = action.payload.data.length == limit;
+                state.social.followers.pagination.hasMore = totalFetched<total_followers;
             })
             .addCase(fetchFollowers.rejected, (state, action) => {
                 state.social.followers.status = 'failed';
@@ -284,11 +310,21 @@ const userSlice = createSlice({
                 state.social.following.status = 'loading';
             })
             .addCase(fetchFollowings.fulfilled, (state, action) => {
+                const payload=action?.payload;
+                const total_followings=payload?.total_followings;
+                const data=payload?.data ?? [];
+
+                
+                const currentLength=state.social.following.users.length;
+                const newFetched=data.length;
+                const totalFetched=currentLength+newFetched;
+
                 state.social.following.status = 'successful';
-                state.social.following.users = action.payload.data;
-                state.social.following.pagination.total = action.payload.total_followings;
+                state.social.following.users = data;
+                state.social.following.pagination.total = total_followings;
+
                 const limit = state.social.following.pagination.limit;
-                state.social.following.pagination.hasMore = action.payload.data.length == limit;
+                state.social.following.pagination.hasMore = totalFetched<total_followings;
             })
             .addCase(fetchFollowings.rejected, (state, action) => {
                 state.social.following.status = 'failed';

@@ -23,6 +23,7 @@ export const Searchbar = ({ isFullLength, type = null, uid = null }) => {
         const headers = { Authorization: `Bearer ${token}` };
         let endpoint = '';
         if (type) {
+          console.log("type: ",type);
           if (uid) {
             endpoint = `http://localhost:3000/user/search/${type}/${uid}?query=${searchText}`;
           } else {

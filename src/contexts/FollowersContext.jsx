@@ -30,6 +30,7 @@ export const FollowersProvider = ({ children }) => {
 
     const getFollowListType = (type) => {
         setType(type);
+        console.log('type of followee in context');
     }
     const incrementPage = () => {
         if (uid) {

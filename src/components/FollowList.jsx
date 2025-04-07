@@ -1,17 +1,20 @@
 import { Link, useParams } from 'react-router-dom';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import {useFollowers } from '../contexts/FollowersContext';
 
 export default function FollowList({ type }) {
     const {getFollowListType } = useOutletContext();
+    // const {getFollowListType}=useFollowers();
     const {followers,followings,incrementPage}=useFollowers();
     const { uid } = useParams();
     const followersRedux = useSelector((state) => state.user.social.followers.users);
     const followingsRedux = useSelector((state) => state.user.social.following.users);
     const userList = uid ? (type === 'followers' ? followers.data : followings.data) : (type === 'followers' ? followersRedux : followingsRedux);
-    useState(() => {
+
+    //i added useEffect here correcting from useState
+    useEffect(() => {
         getFollowListType(type);
     }, [type])
     return (

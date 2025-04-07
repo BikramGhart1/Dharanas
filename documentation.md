@@ -88,3 +88,28 @@ It has three props:
      ```   
      If uid is passed then search the user's following and followers whose uid is being passed else
      search logged in user's
+
+## I'm stumbled upon few issues and bugs
+1. When im trying to get search scope i.e. (followers or followings) it just gives followers
+   Main issue is how im passing the type prop in searchbar component from app.jsx (routes) and as outlet
+
+   Once this bug is fixed almost all issues will be gone
+
+So what i need to do is handler proper context 'type' for profile and user components to pass in searchbar component
+which will eventually sent to backend
+
+should I use same context for both profile and user page? 
+and how do i manipulate the context?
+
+What I found was that:
+1. I'm passing the type prop to FollowList component they are (followers or followings)
+So according to this prop we render the child component dynamically
+
+2. Now im passing another type prop to searchbar  which will let backend know where am I searching
+followers or followings but the problem is these two types are not related it seems
+
+3. For the type prop's state management im using useContext hook, but the problem here is idk when to and 
+how to update the type's state that would be when the  followers or following buttons are clicked to render
+the required page i.e. (followers or following);
+
+so my target is to keep track of this type's state (specially searchbar one).
