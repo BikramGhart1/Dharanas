@@ -38,8 +38,8 @@ export const fetchFollowers = createAsyncThunk(
         try {
             const { limit, page, hasMore } = getState().user.social.followers.pagination;
             const token = getState().user.token;
- 
-            console.log('Has more in followers:, ',hasMore);
+
+            console.log('Has more in followers:, ', hasMore);
             if (!hasMore) {
                 // Still return a consistent shape
                 return {
@@ -54,10 +54,10 @@ export const fetchFollowers = createAsyncThunk(
                     },
                 });
             console.log('followers data in async thunk: ', followersRes.data);
-            const data=await followersRes?.data;
+            const data = await followersRes?.data;
             return data;
         } catch (err) {
-            console.log('error in fetching followers: ',err);
+            console.log('error in fetching followers: ', err);
             return rejectWithValue(err);
         }
     }
@@ -70,7 +70,7 @@ export const fetchFollowings = createAsyncThunk(
             const { limit, page, hasMore } = getState().user.social.following.pagination;
             const token = getState().user.token;
 
-            console.log('following for users triggered and hasmore: ',hasMore);
+            console.log('following for users triggered and hasmore: ', hasMore);
             if (!hasMore) {
                 // Still return a consistent shape
                 return {
@@ -86,10 +86,10 @@ export const fetchFollowings = createAsyncThunk(
                     },
                 });
             console.log('followings data in async thunk: ', followingsRes.data);
-            const data=await followingsRes?.data;
+            const data = await followingsRes?.data;
             return data;
         } catch (err) {
-            console.log('error in fetching followings: ',err);
+            console.log('error in fetching followings: ', err);
             return rejectWithValue(err);
         }
     }
@@ -285,20 +285,32 @@ const userSlice = createSlice({
                 state.social.followers.status = 'loading';
             })
             .addCase(fetchFollowers.fulfilled, (state, action) => {
-                const payload=action?.payload;
-                const total_followers=payload?.total_followers;
-                const data=payload?.data ?? [];
+                const payload = action?.payload;
+                const total_followers = payload?.total_followers;
+                const data = payload?.data ?? [];
 
-                const currentLength=state.social.followers.users.length;
-                const newFetched=data.length;
-                const totalFetched=currentLength+newFetched;
+                const currentLength = state.social.followers.users.length;
+                const newFetched = data.length;
+                const totalFetched = currentLength + newFetched;
+
+                //  DO NOT update anything if there's nothing new AND hasMore is already false
+                if (data.length === 0 && !state.social.followers.pagination.hasMore) {
+                    state.social.followers.status = 'successful';
+                    return;
+                }
 
                 state.social.followers.status = 'successful';
-                state.social.followers.users = data;
                 state.social.followers.pagination.total = total_followers;
 
-                const limit = state.social.followers.pagination.limit;
-                state.social.followers.pagination.hasMore = totalFetched<total_followers;
+                state.social.followers.pagination.hasMore = totalFetched < total_followers;
+
+                const page = state.social.followers.pagination.page;
+                if (page === 1) {
+                    state.social.followers.users = data; // first page, replace
+                } else {
+                    state.social.followers.users.push(...data); // later pages, append
+                }
+                console.log('Im checking if data are available in redux state', state.social.followers.users);
             })
             .addCase(fetchFollowers.rejected, (state, action) => {
                 state.social.followers.status = 'failed';
@@ -310,21 +322,35 @@ const userSlice = createSlice({
                 state.social.following.status = 'loading';
             })
             .addCase(fetchFollowings.fulfilled, (state, action) => {
-                const payload=action?.payload;
-                const total_followings=payload?.total_followings;
-                const data=payload?.data ?? [];
+                const payload = action?.payload;
+                const total_followings = payload?.total_followings;
+                const data = payload?.data ?? [];
 
-                
-                const currentLength=state.social.following.users.length;
-                const newFetched=data.length;
-                const totalFetched=currentLength+newFetched;
 
+                const currentLength = state.social.following.users.length;
+                const newFetched = data.length;
+                const totalFetched = currentLength + newFetched;
+
+                //  DO NOT update anything if there's nothing new AND hasMore is already false
+                if (data.length === 0 && !state.social.following.pagination.hasMore) {
+                    state.social.following.status = 'successful';
+                    return;
+                }
                 state.social.following.status = 'successful';
-                state.social.following.users = data;
+                // state.social.following.users = data;
                 state.social.following.pagination.total = total_followings;
 
-                const limit = state.social.following.pagination.limit;
-                state.social.following.pagination.hasMore = totalFetched<total_followings;
+                state.social.following.pagination.hasMore = totalFetched < total_followings;
+
+                const page = state.social.following.pagination.page;
+                if (page === 1) {
+                    state.social.following.users = data; // first page, replace
+                } else {
+                    state.social.following.users.push(...data); // later pages, append
+                }
+                console.log('Im checking if following data are available in redux state', state.social.following.users);
+
+
             })
             .addCase(fetchFollowings.rejected, (state, action) => {
                 state.social.following.status = 'failed';

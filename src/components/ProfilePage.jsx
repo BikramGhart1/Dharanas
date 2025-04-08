@@ -28,6 +28,7 @@ const ProfilePage = () => {
         }
     })
 
+    // when data arrives update above values
     useEffect(() => {
         if (userInfo) {
             reset({

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchFollowers, fetchFollowings } from "../../store/userSlice";
 import axios from "axios";
@@ -8,6 +8,7 @@ import axios from "axios";
 export const FollowersContext = createContext();
 
 export const FollowersProvider = ({ children }) => {
+    const {following,followers:followersRedux}=useSelector((state)=>state.user.social);
     const [followers, setFollowers] = useState({
         data: [],
         total: 0,
@@ -30,17 +31,9 @@ export const FollowersProvider = ({ children }) => {
 
     const getFollowListType = (type) => {
         setType(type);
-        console.log('type of followee in context');
+        console.log('type of followee in context',type);
     }
-    const incrementPage = () => {
-        if (uid) {
-            setPage(prev => prev + 1);
-        } else {
-            type === 'followers' ?
-                (dispatch(incrementFollowersPage)) :
-                (dispatch(incrementFollowingsPage));
-        }
-    }
+  
     
     //get followers and following of the user when uid given, if uid isnt given fetch loginned user's followers and followings
     const fetchData = async () => {
@@ -69,16 +62,29 @@ export const FollowersProvider = ({ children }) => {
                 setFollowings((prev) => ({ ...prev, data: followingsData.data, total: followingsData.total_followings || 0, hasMore:followingsData.data.length==limit, }));
 
             } else {
-                dispatch(fetchFollowings());
-                dispatch(fetchFollowers());
+                if(following.pagination.hasMore && type==='followers'){
+                    dispatch(fetchFollowings());
+                } 
+                if(followersRedux.pagination.hasMore && type==='following'){
+                    dispatch(fetchFollowers());
+                }
             }
         } catch (err) {
             console.error("An error occurred fetching followers and following ", err);
         }
     }
-
+    const incrementPage = () => {
+        if (uid) {
+            setPage(prev => prev + 1);
+            fetchData()
+        } else {
+            type === 'followers' ?
+                (dispatch(incrementFollowersPage)) :
+                (dispatch(incrementFollowingsPage));
+        }
+    }
     return (
-        <FollowersContext.Provider value={{ followers, followings, fetchData, incrementPage, getFollowListType, type }}>
+        <FollowersContext.Provider value={{ followers, followings, fetchData, incrementPage, getFollowListType, type, page }}>
             {children}
         </FollowersContext.Provider>
     )

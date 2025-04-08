@@ -89,6 +89,7 @@ It has three props:
      If uid is passed then search the user's following and followers whose uid is being passed else
      search logged in user's
 
+# Issues
 ## I'm stumbled upon few issues and bugs
 1. When im trying to get search scope i.e. (followers or followings) it just gives followers
    Main issue is how im passing the type prop in searchbar component from app.jsx (routes) and as outlet
@@ -113,3 +114,22 @@ how to update the type's state that would be when the  followers or following bu
 the required page i.e. (followers or following);
 
 so my target is to keep track of this type's state (specially searchbar one).
+
+in FollowList.jsx line 17  I corrected useState to useEffect so I'll check effects later
+
+### What was the main issue?
+1. The moment ProfilePage.jsx page opens followers and followings data are fetched by dispatching reducers
+2. If followers and followings are all fetched hasMore is set to false
+3. When Followee.jsx page mounts fetch followers and followings dispatches once again but
+this time hasMore is false so it returns empty array replacing previous array and all the data are gone
+
+### Solution or fix
+1. Only fetch and update the followers and followings when there is new data when fetched or hasMore is true
+```
+               if (data.length === 0 && !state.social.followers.pagination.hasMore) {
+                    state.social.followers.status = 'successful';
+                    return;
+                }
+                ```
+ Here data is the payload we receiving  after fetching
+ 

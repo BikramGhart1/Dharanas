@@ -2,17 +2,19 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Searchbar } from "./Partials/Navbar"
 import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useFollowers } from '../contexts/FollowersContext';
+import { useSelector } from 'react-redux';
 
 let isFullLength = true;
 
 export default function Followee() {
     const navigate = useNavigate()
     const { uid } = useParams();
-    const {fetchData, getFollowListType, type}=useFollowers();
+    const {fetchData, getFollowListType, type, page}=useFollowers();
+    const {followers,following}=useSelector((state)=>state.user.social)
     console.log('type in followee comp: ',type);
     useEffect(() => {
         fetchData();
-    }, [uid])
+    }, [uid, followers.pagination.page,following.pagination.page, page])
 
 
     return (
