@@ -15,7 +15,7 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/signup/login', data, {
+      const response = await axios.post('https://dharanas-backend-deployment.onrender.com/signup/login', data, {
         headers: { "Content-Type": "application/json" }
       });
       const token = response.data.token;

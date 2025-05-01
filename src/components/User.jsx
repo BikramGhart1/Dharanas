@@ -35,7 +35,7 @@ export default function User() {
                 throw new Error("No token found!");
             }
             console.log("Passing uid: ", uid)
-            const user = await axios.get(`http://localhost:3000/user/getUserByUid/${uid}`,
+            const user = await axios.get(`https://dharanas-backend-deployment.onrender.com/user/getUserByUid/${uid}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export default function User() {
 
     const checkIfFollowing = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/user/isFollowing/${uid}`, {
+            const response = await axios.get(`https://dharanas-backend-deployment.onrender.com/user/isFollowing/${uid}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -81,7 +81,7 @@ export default function User() {
 
         try {
             if (isFollowing) return;
-            const result = await axios.post(`http://localhost:3000/user/follow/${uid}`,
+            const result = await axios.post(`https://dharanas-backend-deployment.onrender.com/user/follow/${uid}`,
                 {
                     uid: uid,
                 },
@@ -104,7 +104,7 @@ export default function User() {
     const unFollowUser = async () => {
         try {
             if (!isFollowing) return;
-            const result = await axios.delete(`http://localhost:3000/user/unfollow/${uid}`,
+            const result = await axios.delete(`https://dharanas-backend-deployment.onrender.com/user/unfollow/${uid}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

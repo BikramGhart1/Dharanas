@@ -25,9 +25,9 @@ export const FollowersProvider = ({ children }) => {
     const [type, setType] = useState('followers');
 
     const limit = 10;
-    const fetchFollowersURL = `http://localhost:3000/user/showFollowers/${uid}?page=${page}&limit=${limit}`;
+    const fetchFollowersURL = `https://dharanas-backend-deployment.onrender.com/user/showFollowers/${uid}?page=${page}&limit=${limit}`;
 
-    const fetchFollowingsURL = `http://localhost:3000/user/showFollowings/${uid}?page=${page}&limit=${limit}`;
+    const fetchFollowingsURL = `https://dharanas-backend-deployment.onrender.com/user/showFollowings/${uid}?page=${page}&limit=${limit}`;
 
     const getFollowListType = (type) => {
         setType(type);

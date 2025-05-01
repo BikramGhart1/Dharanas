@@ -47,7 +47,7 @@ export const fetchFollowers = createAsyncThunk(
                     total_followers: getState().user.social.followers.pagination.total || 0,
                 };
             }
-            const followersRes = await axios.get(`http://localhost:3000/user/showFollowers?page=${page}&limit=${limit}`,
+            const followersRes = await axios.get(`https://dharanas-backend-deployment.onrender.com/user/showFollowers?page=${page}&limit=${limit}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -79,7 +79,7 @@ export const fetchFollowings = createAsyncThunk(
                 };
             }
             console.log('following check');
-            const followingsRes = await axios.get(`http://localhost:3000/user/showFollowings?page=${page}&limit=${limit}`,
+            const followingsRes = await axios.get(`https://dharanas-backend-deployment.onrender.com/user/showFollowings?page=${page}&limit=${limit}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ export const followUser = createAsyncThunk(
     "user/follow",
     async (uid, { getState, rejectWithValue }) => {
         try {
-            const result = await axios.post(`http://localhost:3000/user/follow/${uid}`,
+            const result = await axios.post(`https://dharanas-backend-deployment.onrender.com/user/follow/${uid}`,
                 {
                     uid: uid,
                 },
@@ -120,7 +120,7 @@ export const unFollowUser = createAsyncThunk(
     "user/unfollow",
     async (_, { getState, rejectWithValue }) => {
         try {
-            const result = await axios.delete(`http://localhost:3000/user/follow/${uid}`,
+            const result = await axios.delete(`https://dharanas-backend-deployment.onrender.com/user/follow/${uid}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -142,7 +142,7 @@ export const fetchUser = createAsyncThunk(
             if (!token) {
                 return rejectWithValue("No token found");
             }
-            const response = await axios.get('http://localhost:3000/user/userDetails', {
+            const response = await axios.get('https://dharanas-backend-deployment.onrender.com/user/userDetails', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -167,7 +167,7 @@ export const changepfp = createAsyncThunk(
             if (!token) {
                 return rejectWithValue('No token found');
             }
-            const response = await axios.post(`http://localhost:3000/user/changepfp/${uid}`,
+            const response = await axios.post(`https://dharanas-backend-deployment.onrender.com/user/changepfp/${uid}`,
 
                 formData
                 , {
@@ -197,7 +197,7 @@ export const updateProfile = createAsyncThunk(
             if (!token) {
                 return rejectWithValue("No token found");
             }
-            const response = await axios.post(`http://localhost:3000/user/editProfile/${uid}`,
+            const response = await axios.post(`https://dharanas-backend-deployment.onrender.com/user/editProfile/${uid}`,
                 formData,
                 {
                     headers: {

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
@@ -25,12 +24,12 @@ export const Searchbar = ({ isFullLength, type = null, uid = null }) => {
         if (type) {
           console.log("type: ",type);
           if (uid) {
-            endpoint = `http://localhost:3000/user/search/${type}/${uid}?query=${searchText}`;
+            endpoint = `https://dharanas-backend-deployment.onrender.com/user/search/${type}/${uid}?query=${searchText}`;
           } else {
-            endpoint = `http://localhost:3000/user/search/${type}?query=${searchText}`;
+            endpoint = `https://dharanas-backend-deployment.onrender.com/user/search/${type}?query=${searchText}`;
           }
         } else {
-          endpoint = `http://localhost:3000/user/search?query=${searchText}`;
+          endpoint = `https://dharanas-backend-deployment.onrender.com/user/search?query=${searchText}`;
         }
         const response = await axios.get(endpoint, { headers });
         setSearchResult(response.data.data);

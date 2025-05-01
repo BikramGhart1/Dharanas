@@ -117,6 +117,7 @@ so my target is to keep track of this type's state (specially searchbar one).
 
 in FollowList.jsx line 17  I corrected useState to useEffect so I'll check effects later
 
+* Apr 8
 ### What was the main issue?
 1. The moment ProfilePage.jsx page opens followers and followings data are fetched by dispatching reducers
 2. If followers and followings are all fetched hasMore is set to false
@@ -130,6 +131,6 @@ this time hasMore is false so it returns empty array replacing previous array an
                     state.social.followers.status = 'successful';
                     return;
                 }
-                ```
+ ```
  Here data is the payload we receiving  after fetching
- 
+
